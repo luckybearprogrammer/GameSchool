@@ -3,7 +3,7 @@ import arcade
 
 class Window(arcade.Window):
     def __init__(self):
-        super().__init__(1000, 800, "Ем чипсЕки")
+        super().__init__(title="Ем чипсЕки", fullscreen=True)
         self.bg = arcade.load_texture("env/chips.png")
         self.z = 0
 
