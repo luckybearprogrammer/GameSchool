@@ -10,6 +10,7 @@ class Window(arcade.Window):
     def on_draw(self):
         self.clear()
         # привет
+        # Степан любит кушать
         arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
         arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
         self.z += 5
