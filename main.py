@@ -89,13 +89,13 @@ class OptionsView(arcade.View):
         arcade.draw_text(f"Язык", window.width / 4, 0.65 * window.height,
                          arcade.color.WHITE, 65,
                          font_name="Discharge Pro", anchor_x="center")
-        arcade.draw_text(f"Режим барана", window.width / 4 + window.width/2, 0.65 * window.height,
+        arcade.draw_text(f"Режим барана", window.width / 4 + window.width / 2, 0.65 * window.height,
                          arcade.color.WHITE, 65,
                          font_name="Discharge Pro", anchor_x="center")
         arcade.draw_text(f"Музыка", window.width / 4, 0.5 * window.height,
                          arcade.color.WHITE, 65,
                          font_name="Discharge Pro", anchor_x="center")
-        arcade.draw_text(f"HAPPY MOD", window.width / 4 + window.width/2, 0.5 * window.height,
+        arcade.draw_text(f"HAPPY MOD", window.width / 4 + window.width / 2, 0.5 * window.height,
                          arcade.color.WHITE, 65,
                          font_name="Discharge Pro", anchor_x="center")
 
@@ -107,7 +107,6 @@ class OptionsView(arcade.View):
         if symbol == arcade.key.ESCAPE:
             start_view.z = self.z
             self.window.show_view(start_view)
-
 
 
 class ChipsView(arcade.View):
