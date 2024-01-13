@@ -139,3 +139,4 @@ chipsView = ChipsView()
 optView = OptionsView(0)
 window.show_view(start_view)
 arcade.run()
+# тест
