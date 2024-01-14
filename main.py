@@ -1,15 +1,23 @@
 import arcade
+import webbrowser
 from weather import get_current_weather
+import arcade.gui
 
 LANGUAGE = "rus"
-temp = get_current_weather()
+
+
 
 
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
         self.bg = arcade.load_texture("env/Default.png")
+        self.bg1 = arcade.load_texture("env/Default.png")
         self.bgShadow = arcade.load_texture("env/Shadow.png")
+        self.bgChips = arcade.load_texture("env/chips.png")
+        self.exitTexture = arcade.load_texture("env/exit.png")
+        self.optinonsTexture = arcade.load_texture("env/options.png")
+        self.iconVk = arcade.load_texture("env/vk-logo.png")
         self.startButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785, y=40,
                                                width=270, height=95)
         self.exitButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=1055, y=40,
@@ -26,11 +34,23 @@ class StartView(arcade.View):
         self.clear()
         arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
         arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.05,
+                                            window.height / 9 - self.iconVk.height / 2 * 0.05, self.iconVk.width * 0.05,
+                                            self.iconVk.height * 0.05, self.iconVk)
+        if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= window._mouse_x <=
+                window.width / 10 + self.iconVk.width * 0.05
+                and window.height / 9 - self.iconVk.height / 2 * 0.05 <= window._mouse_y <=
+                window.height / 9 + self.iconVk.height * 0.05):
+            arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.07,
+                                                window.height / 9 - self.iconVk.height / 2 * 0.07,
+                                                self.iconVk.width * 0.07,
+                                                self.iconVk.height * 0.07, self.iconVk)
         if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
                 <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
                 and
                 window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
                 <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+
             arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
                                                 window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
                                                 self.startButton.width * self.ButtonScale,
@@ -41,6 +61,7 @@ class StartView(arcade.View):
                 window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
                 self.startButton.width * (self.ButtonScale + 0.3),
                 self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
+
         if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
                 <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
                 and
@@ -72,6 +93,7 @@ class StartView(arcade.View):
                 window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.3 * window.height,
                 self.startButton.width * (self.ButtonScale + 0.3),
                 self.startButton.height * (self.ButtonScale + 0.3), self.exitButton)
+
         global LANGUAGE
         if LANGUAGE == "rus":
             arcade.draw_text(f"Приключение Степиды и его кентов", window.width / 2, 0.65 * window.height,
@@ -82,9 +104,9 @@ class StartView(arcade.View):
                              arcade.color.WHITE, 70,
                              font_name="Discharge Pro", anchor_x="center")
 
-        arcade.draw_text(temp, window.width / 7, window.height / 7,
-                         arcade.color.WHITE, 70,
-                         font_name="Discharge Pro", anchor_x="center")
+        # arcade.draw_text(temp, window.width / 7, window.height / 7,
+        #                  arcade.color.WHITE, 70,
+        #                  font_name="Discharge Pro", anchor_x="center")
 
         self.z += 3
         if self.z > window.width:
@@ -114,6 +136,11 @@ class StartView(arcade.View):
                 <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
             arcade.play_sound(self.huh)
             arcade.exit()
+        if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= x <=
+                window.width / 10 + self.iconVk.width * 0.05
+                and window.height / 9 - self.iconVk.height / 2 * 0.05 <= y <=
+                window.height / 9 + self.iconVk.height * 0.05):
+            webbrowser.open("https://vk.com/blaatnoiii")
 
 
 class OptionsView(arcade.View):
@@ -125,6 +152,21 @@ class OptionsView(arcade.View):
         self.eng = arcade.load_texture("env/eng.png")
         self.sizeOFFlag = 0.1
         self.z = z
+        with open("env/user.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                if line.strip() == "None":
+                    self.manager = arcade.gui.UIManager()
+                    self.manager.enable()
+                else:
+                    self.nick = line.strip()
+        self.setup()
+
+    def setup(self):
+        textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
+                                       width=window.width / 4, height=140, font_name="Discharge Pro",
+                                       text_color=arcade.color.WHITE,
+                                       font_size=80, text="Я сигма крутой")
+        self.manager.add(textq)
 
     def on_draw(self):
         self.clear()
@@ -146,9 +188,14 @@ class OptionsView(arcade.View):
             arcade.draw_text(f"Бимбимбамбам", window.width / 4 + window.width / 2, 0.5 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-            arcade.draw_text("О разработчиках", window.width / 2, 0.35 * window.height,
+            arcade.draw_text(f"Пользователь", window.width / 4, 0.35 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
+            arcade.draw_text("О разработчиках", window.width / 2, 0.2 * window.height,
+                             arcade.color.WHITE, 65,
+                             font_name="Discharge Pro", anchor_x="center")
+            self.manager.draw()
+
         else:
             arcade.draw_text(f"Options", window.width / 2, 0.84 * window.height,
                              arcade.color.WHITE, 80,
@@ -234,7 +281,7 @@ class ChipsView(arcade.View):
             self.window.show_view(start_view)
 
 
-# window = arcade.Window(1366, 768)
+# window = arcade.Window(1980,1080)
 
 window = arcade.Window(fullscreen=True)
 start_view = StartView()
