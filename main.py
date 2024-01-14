@@ -1,6 +1,8 @@
 import arcade
+from weather import get_current_weather
 
 LANGUAGE = "rus"
+temp = get_current_weather()
 
 
 class StartView(arcade.View):
@@ -79,6 +81,10 @@ class StartView(arcade.View):
             arcade.draw_text(f"The adventure of StepanIA and his Kents", window.width / 2, 0.65 * window.height,
                              arcade.color.WHITE, 70,
                              font_name="Discharge Pro", anchor_x="center")
+
+        arcade.draw_text(temp, window.width / 7, window.height / 7,
+                         arcade.color.WHITE, 70,
+                         font_name="Discharge Pro", anchor_x="center")
 
         self.z += 3
         if self.z > window.width:
@@ -228,7 +234,7 @@ class ChipsView(arcade.View):
             self.window.show_view(start_view)
 
 
-# window = arcade.Window(1980,1080)
+# window = arcade.Window(1366, 768)
 
 window = arcade.Window(fullscreen=True)
 start_view = StartView()
