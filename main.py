@@ -2,10 +2,8 @@ import arcade
 import webbrowser
 from weather import get_current_weather
 import arcade.gui
-
+from serclient import *
 LANGUAGE = "rus"
-
-
 
 
 class StartView(arcade.View):
@@ -150,6 +148,7 @@ class OptionsView(arcade.View):
         self.font = arcade.load_font("env/DischargePro.ttf")
         self.rus = arcade.load_texture("env/rus.png")
         self.eng = arcade.load_texture("env/eng.png")
+        self.login = arcade.load_texture("env/login.png")
         self.sizeOFFlag = 0.1
         self.z = z
         with open("env/user.txt", "r", encoding="utf-8") as file:
@@ -159,14 +158,14 @@ class OptionsView(arcade.View):
                     self.manager.enable()
                 else:
                     self.nick = line.strip()
-        self.setup()
-
-    def setup(self):
-        textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
+        self.textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
                                        width=window.width / 4, height=140, font_name="Discharge Pro",
                                        text_color=arcade.color.WHITE,
                                        font_size=80, text="Я сигма крутой")
-        self.manager.add(textq)
+        self.manager.add(self.textq)
+
+
+
 
     def on_draw(self):
         self.clear()
@@ -236,6 +235,7 @@ class OptionsView(arcade.View):
                                                 0.67 * window.height - self.rus.height / 2 * (self.sizeOFFlag + 0.04),
                                                 self.rus.width * (self.sizeOFFlag + 0.04),
                                                 self.rus.height * (self.sizeOFFlag + 0.04), self.eng)
+        arcade.draw_lrwh_rectangle_textured(window.width/2,window.height/2,self.login.width*0.2,self.login.height*0.2,self.login)
 
         self.z += 3
         if self.z > window.width:
@@ -245,6 +245,9 @@ class OptionsView(arcade.View):
         if symbol == arcade.key.ESCAPE:
             start_view.z = self.z
             self.window.show_view(start_view)
+        if symbol == arcade.key.Q:
+            if can(str(self.textq.text)):
+                print(f"да, ник {self.textq.text} не занят")
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         global LANGUAGE
