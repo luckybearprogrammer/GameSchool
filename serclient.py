@@ -15,7 +15,7 @@ def send_number_to_api(number, iduser):
         print('Failed to send the number to the API')
 
 
-async def can(iduser):
+def can(iduser):
     url = 'https://2c7a-79-165-25-253.ngrok-free.app/can'
     data = {'nick': iduser}
     response = requests.post(url, json=data)
@@ -27,4 +27,3 @@ async def can(iduser):
         return False
     else:
         return False
-    await asyncio.sleep(1)

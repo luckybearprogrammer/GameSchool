@@ -3,6 +3,7 @@ import webbrowser
 from weather import get_current_weather
 import arcade.gui
 from serclient import *
+
 LANGUAGE = "rus"
 
 
@@ -151,21 +152,21 @@ class OptionsView(arcade.View):
         self.login = arcade.load_texture("env/login.png")
         self.sizeOFFlag = 0.1
         self.z = z
+        self.basa = False
         with open("env/user.txt", "r", encoding="utf-8") as file:
             for line in file:
                 if line.strip() == "None":
                     self.manager = arcade.gui.UIManager()
                     self.manager.enable()
+                    self.l = True
+                    self.textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
+                                                        width=window.width / 4, height=140, font_name="Discharge Pro",
+                                                        text_color=arcade.color.WHITE,
+                                                        font_size=80, text="Я сигма крутой")
+                    self.manager.add(self.textq)
                 else:
                     self.nick = line.strip()
-        self.textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
-                                       width=window.width / 4, height=140, font_name="Discharge Pro",
-                                       text_color=arcade.color.WHITE,
-                                       font_size=80, text="Я сигма крутой")
-        self.manager.add(self.textq)
-
-
-
+                    self.l = False
 
     def on_draw(self):
         self.clear()
@@ -190,10 +191,9 @@ class OptionsView(arcade.View):
             arcade.draw_text(f"Пользователь", window.width / 4, 0.35 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-            arcade.draw_text("О разработчиках", window.width / 2, 0.2 * window.height,
+            arcade.draw_text("О разработчиках", window.width / 4, 0.2 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-            self.manager.draw()
 
         else:
             arcade.draw_text(f"Options", window.width / 2, 0.84 * window.height,
@@ -211,6 +211,22 @@ class OptionsView(arcade.View):
             arcade.draw_text(f"Python is trash", window.width / 4 + window.width / 2, 0.5 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
+        if self.l:
+            self.manager.draw()
+            arcade.draw_lrwh_rectangle_textured(window.width / 4 + window.width / 2 - self.login.width / 2 * 0.2,
+                                                0.15 * window.height,
+                                                self.login.width * 0.2,
+                                                self.login.height * 0.2, self.login)
+        else:
+            arcade.draw_text(self.nick, window.width / 4 + window.width / 2, 0.35 * window.height,
+                             font_name="Discharge Pro",
+                             color=arcade.color.GREEN, anchor_x="center",
+                             font_size=80)
+        if self.basa:
+            arcade.draw_text("ник занят баран", window.width / 4 + window.width / 2, 0.1 * window.height,
+                             font_name="Discharge Pro",
+                             color=arcade.color.RED, anchor_x="center",
+                             font_size=80)
         arcade.draw_lrwh_rectangle_textured(window.width / 4 + 0.1 * window.width,
                                             0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag,
                                             self.rus.width * self.sizeOFFlag,
@@ -235,7 +251,6 @@ class OptionsView(arcade.View):
                                                 0.67 * window.height - self.rus.height / 2 * (self.sizeOFFlag + 0.04),
                                                 self.rus.width * (self.sizeOFFlag + 0.04),
                                                 self.rus.height * (self.sizeOFFlag + 0.04), self.eng)
-        arcade.draw_lrwh_rectangle_textured(window.width/2,window.height/2,self.login.width*0.2,self.login.height*0.2,self.login)
 
         self.z += 3
         if self.z > window.width:
@@ -248,6 +263,12 @@ class OptionsView(arcade.View):
         if symbol == arcade.key.Q:
             if can(str(self.textq.text)):
                 print(f"да, ник {self.textq.text} не занят")
+                with open("env/user.txt", "w", encoding="utf-8") as file:
+                    file.write(self.textq.text)
+                self.nick = self.textq.text
+                self.l = False
+            else:
+                self.basa = True
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         global LANGUAGE
@@ -261,6 +282,17 @@ class OptionsView(arcade.View):
                 0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag <= window._mouse_y <=
                 0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag + self.rus.height * self.sizeOFFlag):
             LANGUAGE = "eng"
+        if (window.width / 4 + window.width / 2 - self.login.width / 2 * 0.2 <= x <= window.width / 4 +
+                window.width / 2 - self.login.width / 2 * 0.2 + self.login.width * 0.2 and
+                0.15 * window.height <= y <= 0.15 * window.height + self.login.height * 0.2):
+            if can(str(self.textq.text)):
+                print(f"да, ник {self.textq.text} не занят")
+                with open("env/user.txt", "w", encoding="utf-8") as file:
+                    file.write(self.textq.text)
+                self.nick = self.textq.text
+                self.l = False
+            else:
+                self.basa = True
 
 
 class ChipsView(arcade.View):
