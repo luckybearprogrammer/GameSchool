@@ -16,7 +16,7 @@ def send_number_to_api(number, iduser):
 
 
 def can(iduser):
-    url = 'https://2c7a-79-165-25-253.ngrok-free.app/can'
+    url = 'https://0218-79-165-25-253.ngrok-free.app/can'
     data = {'nick': iduser}
     response = requests.post(url, json=data)
     print(response.status_code)

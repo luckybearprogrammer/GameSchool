@@ -1,3 +1,5 @@
+import random
+
 import arcade
 import webbrowser
 from weather import get_current_weather
@@ -152,17 +154,20 @@ class OptionsView(arcade.View):
         self.login = arcade.load_texture("env/login.png")
         self.sizeOFFlag = 0.1
         self.z = z
-        self.basa = False
+        self.base = False
         with open("env/user.txt", "r", encoding="utf-8") as file:
             for line in file:
                 if line.strip() == "None":
                     self.manager = arcade.gui.UIManager()
                     self.manager.enable()
                     self.l = True
+                    animals = ["кенгуру", "жираф", "пингвин", "лев"]
                     self.textq = arcade.gui.UIInputText(window.width / 1.65, 0.3 * window.height,
                                                         width=window.width / 4, height=140, font_name="Discharge Pro",
                                                         text_color=arcade.color.WHITE,
-                                                        font_size=80, text="Я сигма крутой")
+                                                        font_size=80,
+                                                        text=f"{animals[random.randint(0, len(animals) - 1)]}"
+                                                             f"{random.randint(0, 100)}")
                     self.manager.add(self.textq)
                 else:
                     self.nick = line.strip()
@@ -179,13 +184,13 @@ class OptionsView(arcade.View):
             arcade.draw_text(f"Язык", window.width / 4, 0.65 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-            arcade.draw_text(f"Режим барана", window.width / 4 + window.width / 2, 0.65 * window.height,
+            arcade.draw_text(f"какая то настройка", window.width / 4 + window.width / 2, 0.65 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
             arcade.draw_text(f"Музыка", window.width / 4, 0.5 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-            arcade.draw_text(f"Бимбимбамбам", window.width / 4 + window.width / 2, 0.5 * window.height,
+            arcade.draw_text(f"какая то настройка", window.width / 4 + window.width / 2, 0.5 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
             arcade.draw_text(f"Пользователь", window.width / 4, 0.35 * window.height,
@@ -222,8 +227,8 @@ class OptionsView(arcade.View):
                              font_name="Discharge Pro",
                              color=arcade.color.GREEN, anchor_x="center",
                              font_size=80)
-        if self.basa:
-            arcade.draw_text("ник занят баран", window.width / 4 + window.width / 2, 0.1 * window.height,
+        if self.base:
+            arcade.draw_text("ник занят", window.width / 4 + window.width / 2, 0.1 * window.height,
                              font_name="Discharge Pro",
                              color=arcade.color.RED, anchor_x="center",
                              font_size=80)
@@ -260,15 +265,8 @@ class OptionsView(arcade.View):
         if symbol == arcade.key.ESCAPE:
             start_view.z = self.z
             self.window.show_view(start_view)
-        if symbol == arcade.key.Q:
-            if can(str(self.textq.text)):
-                print(f"да, ник {self.textq.text} не занят")
-                with open("env/user.txt", "w", encoding="utf-8") as file:
-                    file.write(self.textq.text)
-                self.nick = self.textq.text
-                self.l = False
-            else:
-                self.basa = True
+        if symbol == arcade.key.D:
+            webbrowser.open("https://github.com/luckybearprogrammer")
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         global LANGUAGE
@@ -291,8 +289,9 @@ class OptionsView(arcade.View):
                     file.write(self.textq.text)
                 self.nick = self.textq.text
                 self.l = False
+                self.base = False
             else:
-                self.basa = True
+                self.base = True
 
 
 class ChipsView(arcade.View):
@@ -316,9 +315,9 @@ class ChipsView(arcade.View):
             self.window.show_view(start_view)
 
 
-# window = arcade.Window(1980,1080)
+window = arcade.Window(1980, 1080)
 
-window = arcade.Window(fullscreen=True)
+# window = arcade.Window(fullscreen=True)
 start_view = StartView()
 chipsView = ChipsView()
 optView = OptionsView(0)
