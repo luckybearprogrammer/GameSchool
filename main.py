@@ -33,11 +33,70 @@ class StartView(arcade.View):
         self.z = 0
         self.huh = arcade.load_sound("env/huh.mp3")
         self.font = arcade.load_font("env/DischargePro.ttf")
+        with open("env/user.txt", "r", encoding="utf-8") as file:
+            for line in file:
+                if line.strip() == "None":
+                    self.manager = arcade.gui.UIManager()
+                    self.manager.enable()
+
+                    # self.v_box = arcade.gui.UIBoxLayout()
+                    #
+                    # # Create a button. We'll click on this to open our window.
+                    # # Add it v_box for positioning.
+                    # open_message_box_button = arcade.gui.UIFlatButton(window.width / 2, window.height / 2,
+                    #                                                   text="почему я не могу играть?",
+                    #                                                   width=400)
+                    # self.v_box.add(open_message_box_button)
+                    #
+                    # # Add a hook to run when we click on the button.
+                    # open_message_box_button.on_click = self.on_click_open
+                    # # Create a widget to hold the v_box widget, that will center the buttons
+                    # self.manager = arcade.gui.UIManager()
+                    # self.manager.enable()
+                    # self.manager.add(
+                    #     arcade.gui.UIAnchorWidget(
+                    #         anchor_x="center_x",
+                    #         anchor_y="center_y",
+                    #         child=self.v_box)
+                    # )
+                    self.l = True
+                else:
+                    self.l = False
+
+    def on_click_open(self):
+
+        # The code in this function is run when we click the ok button.
+
+        # The code below opens the message box and auto-dismisses it when done.
+
+        message_box = arcade.gui.UIMessageBox(
+
+            width=300,
+
+            height=200,
+
+            message_text=(
+
+                "Ты должен придумать себе ник в настройках"
+
+            ),
+
+            callback=self.on_message_box_close,
+
+            buttons=["Ok"]
+
+        )
+
+        self.manager.add(message_box)
+
+    def on_message_box_close(self, button_text):
+        print(f"User pressed {button_text}.")
 
     def on_draw(self):
         self.clear()
         arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
         arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+
         arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.05,
                                             window.height / 9 - self.iconVk.height / 2 * 0.05, self.iconVk.width * 0.05,
                                             self.iconVk.height * 0.05, self.iconVk)
@@ -49,22 +108,25 @@ class StartView(arcade.View):
                                                 window.height / 9 - self.iconVk.height / 2 * 0.07,
                                                 self.iconVk.width * 0.07,
                                                 self.iconVk.height * 0.07, self.iconVk)
-        if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        if not self.l:
+            if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
+                    <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+                    and
+                    window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
+                    <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
 
-            arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-                                                window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
-                                                self.startButton.width * self.ButtonScale,
-                                                self.startButton.height * self.ButtonScale, self.startButton)
+                arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
+                                                    window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
+                                                    self.startButton.width * self.ButtonScale,
+                                                    self.startButton.height * self.ButtonScale, self.startButton)
+            else:
+                arcade.draw_lrwh_rectangle_textured(
+                    window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
+                    window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
+                    self.startButton.width * (self.ButtonScale + 0.3),
+                    self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
         else:
-            arcade.draw_lrwh_rectangle_textured(
-                window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-                window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
-                self.startButton.width * (self.ButtonScale + 0.3),
-                self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
+            self.manager.draw()
 
         if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
                 <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
@@ -117,11 +179,11 @@ class StartView(arcade.View):
             self.z = 0
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        if (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        if not self.l and (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
+                           <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+                           and
+                           window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= y
+                           <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
             arcade.play_sound(self.huh)
             global chipsView
             self.window.show_view(chipsView)
@@ -146,6 +208,10 @@ class StartView(arcade.View):
                 window.height / 9 + self.iconVk.height * 0.05):
             webbrowser.open("https://vk.com/blaatnoiii")
 
+    def on_key_press(self, symbol: int, modifiers: int):
+        if symbol == arcade.key.P:
+            self.on_click_open()
+
 
 class OptionsView(arcade.View):
     def __init__(self, z):
@@ -161,6 +227,7 @@ class OptionsView(arcade.View):
         self.sizeOFFlag = 0.1
         self.z = z
         self.base = False
+
         with open("env/user.txt", "r", encoding="utf-8") as file:
             for line in file:
                 if line.strip() == "None":
@@ -221,6 +288,7 @@ class OptionsView(arcade.View):
             arcade.draw_text(f"Python is trash", window.width / 4 + window.width / 2, 0.5 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
+
         if self.l:
             self.manager.draw()
             arcade.draw_lrwh_rectangle_textured(window.width / 4 + window.width / 2 - self.login.width / 2 * 0.2,
