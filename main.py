@@ -7,7 +7,10 @@ import arcade.gui
 from serclient import *
 
 LANGUAGE = "rus"
+music = arcade.play_sound(arcade.load_sound("env/bgmusic.mp3"), looping=True)
 
+
+# music.volume=0
 
 class StartView(arcade.View):
     def __init__(self):
@@ -152,6 +155,9 @@ class OptionsView(arcade.View):
         self.rus = arcade.load_texture("env/rus.png")
         self.eng = arcade.load_texture("env/eng.png")
         self.login = arcade.load_texture("env/login.png")
+        self.on = arcade.load_texture("env/onoff.png", x=0, y=0, width=1146, height=503)
+        self.off = arcade.load_texture("env/onoff.png", x=0, y=503, width=1146, height=503)
+        self.chet = 0
         self.sizeOFFlag = 0.1
         self.z = z
         self.base = False
@@ -199,7 +205,6 @@ class OptionsView(arcade.View):
             arcade.draw_text("О разработчиках", window.width / 4, 0.2 * window.height,
                              arcade.color.WHITE, 65,
                              font_name="Discharge Pro", anchor_x="center")
-
         else:
             arcade.draw_text(f"Options", window.width / 2, 0.84 * window.height,
                              arcade.color.WHITE, 80,
@@ -232,6 +237,7 @@ class OptionsView(arcade.View):
                              font_name="Discharge Pro",
                              color=arcade.color.RED, anchor_x="center",
                              font_size=80)
+
         arcade.draw_lrwh_rectangle_textured(window.width / 4 + 0.1 * window.width,
                                             0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag,
                                             self.rus.width * self.sizeOFFlag,
@@ -240,6 +246,7 @@ class OptionsView(arcade.View):
                                             0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag,
                                             self.rus.width * self.sizeOFFlag,
                                             self.rus.height * self.sizeOFFlag, self.eng)
+
         if (window.width / 4 + 0.1 * window.width <= window._mouse_x
                 <= window.width / 4 + 0.1 * window.width + self.rus.width * self.sizeOFFlag and
                 0.67 * window.height - self.rus.height / 2 * self.sizeOFFlag <= window._mouse_y <=
@@ -256,6 +263,18 @@ class OptionsView(arcade.View):
                                                 0.67 * window.height - self.rus.height / 2 * (self.sizeOFFlag + 0.04),
                                                 self.rus.width * (self.sizeOFFlag + 0.04),
                                                 self.rus.height * (self.sizeOFFlag + 0.04), self.eng)
+        if self.chet % 2 == 0:
+            arcade.draw_lrwh_rectangle_textured(window.width / 2.8,
+                                                0.5 * window.height,
+                                                self.on.width * 0.15,
+                                                self.on.height * 0.15,
+                                                self.on)
+        else:
+            arcade.draw_lrwh_rectangle_textured(window.width / 2.8,
+                                                0.5 * window.height,
+                                                self.on.width * 0.15,
+                                                self.on.height * 0.15,
+                                                self.off)
 
         self.z += 3
         if self.z > window.width:
@@ -292,6 +311,13 @@ class OptionsView(arcade.View):
                 self.base = False
             else:
                 self.base = True
+        if window.width / 2.8 <= x <= window.width / 2.8 + self.on.width * 0.15 and 0.5 * window.height <= 0.5 * window.height + self.on.height:
+            global music
+            if self.chet % 2 != 0:
+                music.volume = 1
+            else:
+                music.volume = 0
+            self.chet += 1
 
 
 class ChipsView(arcade.View):
@@ -315,7 +341,7 @@ class ChipsView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1980, 1080)
+window = arcade.Window(1980, 1080, resizable=True)
 
 # window = arcade.Window(fullscreen=True)
 start_view = StartView()
