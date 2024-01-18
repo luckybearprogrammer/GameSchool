@@ -1,70 +1,60 @@
-"""
-Example code showing how to use the OKMessageBox
-"""
 import arcade
-import arcade.gui
+from arcade import load_texture
+from arcade.gui import UIManager
+from arcade.gui.widgets import UITextArea, UIInputText, UITexturePane
+
+LOREM_IPSUM = (
+    "0 Mike\n\n"
+    "21312 Lox\n\n"
+    "213123 dfds\n\n"
+    "2131231221312 dsfdsf\n\n"
+    "23213123213 efefew\n\n"
+    "0 Mike\n\n"
+    "0 Mike\n\n"
+    "21312 Lox\n\n"
+    "213123 dfds\n\n"
+    "2131231221312 dsfdsf\n\n"
+    "23213123213 efefew\n\n"
+    "0 Mike\n\n"
+    "0 Mike\n\n"
+    "21312 Lox\n\n"
+    "213123 dfds\n\n"
+    "2131231221312 dsfdsf\n\n"
+    "23213123213 efefew\n\n"
+    "0 Mike\n\n")
 
 
 class MyWindow(arcade.Window):
-
     def __init__(self):
-        super().__init__(800, 600, "OKMessageBox Example", resizable=True)
-        arcade.set_background_color(arcade.color.COOL_GREY)
-
-        # Create and enable the UIManager
-        self.manager = arcade.gui.UIManager()
+        super().__init__(800, 600, "Scrollable Text", resizable=True)
+        self.bg = arcade.load_texture("env/liders.png")
+        self.manager = UIManager()
         self.manager.enable()
+        self.font = arcade.load_font("env/DischargePro.ttf")
+        arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
 
-        # Create a box group to align the 'open' button in the center
-        self.v_box = arcade.gui.UIBoxLayout()
-
-        # Create a button. We'll click on this to open our window.
-        # Add it v_box for positioning.
-        open_message_box_button = arcade.gui.UIFlatButton(text="Open", width=200)
-        self.v_box.add(open_message_box_button)
-
-        # Add a hook to run when we click on the button.
-        open_message_box_button.on_click = self.on_click_open
-        # Create a widget to hold the v_box widget, that will center the buttons
+        bg_tex = load_texture("env/bgliders.png")
+        text_area = UITextArea(x=1000,
+                               y=300,
+                               width=1000,
+                               height=800,
+                               text=LOREM_IPSUM,
+                               text_color=arcade.color.RED,
+                               font_size=50,
+                               font_name="Discharge Pro")
         self.manager.add(
-            arcade.gui.UIAnchorWidget(
-                anchor_x="center_x",
-                anchor_y="center_y",
-                child=self.v_box)
+            UITexturePane(
+                text_area.with_space_around(right=20),
+                tex=bg_tex,
+                padding=(10, 10, 10, 10),
+
+            )
         )
-
-    def on_click_open(self, event):
-
-        # The code in this function is run when we click the ok button.
-
-        # The code below opens the message box and auto-dismisses it when done.
-
-        message_box = arcade.gui.UIMessageBox(
-
-            width=300,
-
-            height=200,
-
-            message_text=(
-
-                "Ты должен придумать себе ник в настройках"
-
-            ),
-
-            callback=self.on_message_box_close,
-
-            buttons=["Ok"]
-
-        )
-
-        self.manager.add(message_box)
 
     def on_draw(self):
         self.clear()
+        arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.bg)
         self.manager.draw()
-
-    def on_message_box_close(self, button_text):
-        print(f"User pressed {button_text}.")
 
 
 window = MyWindow()
