@@ -2,32 +2,13 @@ import arcade
 from arcade import load_texture
 from arcade.gui import UIManager
 from arcade.gui.widgets import UITextArea, UIInputText, UITexturePane
-
-LOREM_IPSUM = (
-    "0 Mike\n\n"
-    "21312 Lox\n\n"
-    "213123 dfds\n\n"
-    "2131231221312 dsfdsf\n\n"
-    "23213123213 efefew\n\n"
-    "0 Mike\n\n"
-    "0 Mike\n\n"
-    "21312 Lox\n\n"
-    "213123 dfds\n\n"
-    "2131231221312 dsfdsf\n\n"
-    "23213123213 efefew\n\n"
-    "0 Mike\n\n"
-    "0 Mike\n\n"
-    "21312 Lox\n\n"
-    "213123 dfds\n\n"
-    "2131231221312 dsfdsf\n\n"
-    "23213123213 efefew\n\n"
-    "0 Mike\n\n")
+from serclient import *
 formatted_lorem_ipsum = ""
 max_length = 0
 names = []
 numbers = []
-
-for line in LOREM_IPSUM.split("\n\n"):
+a = top()
+for line in a:
     if line:
         parts = line.split()
         if len(parts) == 2:
@@ -36,10 +17,8 @@ for line in LOREM_IPSUM.split("\n\n"):
             numbers.append(number)
             max_length = max(max_length, len(name))
 max_length += 20
-x = LOREM_IPSUM.split("\n\n")
-x.pop(-1)
-print(x)
-for line in x:
+a.pop(-1)
+for line in a:
     formatted_lorem_ipsum += line.split()[0] + " " * (max_length - len(line)) + line.split()[1] + "\n\n"
 
 print(formatted_lorem_ipsum)
@@ -67,8 +46,6 @@ class MyWindow(arcade.Window):
             UITexturePane(
                 text_area.with_space_around(),
                 tex=bg_tex,
-                # padding=(10, 10, 10, 10),
-
             )
         )
 

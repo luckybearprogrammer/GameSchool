@@ -1,10 +1,12 @@
 import requests
 import asyncio
 
+urlServer = "https://e690-79-165-25-253.ngrok-free.app"
+
 
 # Отправка числа в API для записи в файл
 def send_number_to_api(number, iduser):
-    url = 'https://2c7a-79-165-25-253.ngrok-free.app/write_number'
+    url = f'{urlServer}/write_number'
     data = {'number': number, 'iduser': iduser}
     response = requests.post(url, json=data)
     print(response.status_code)
@@ -16,7 +18,7 @@ def send_number_to_api(number, iduser):
 
 
 def can(iduser):
-    url = 'https://0218-79-165-25-253.ngrok-free.app/can'
+    url = f'{urlServer}/can'
     data = {'nick': iduser}
     response = requests.post(url, json=data)
     print(response.status_code)
@@ -27,3 +29,13 @@ def can(iduser):
         return False
     else:
         return False
+
+
+def top():
+    url = f'{urlServer}/top'
+    response = requests.post(url)
+    if response.status_code == 200:
+        return response.json()["top"].split("lol")
+    else:
+        return "иди лесом"
+
