@@ -22,11 +22,32 @@ LOREM_IPSUM = (
     "2131231221312 dsfdsf\n\n"
     "23213123213 efefew\n\n"
     "0 Mike\n\n")
+formatted_lorem_ipsum = ""
+max_length = 0
+names = []
+numbers = []
+
+for line in LOREM_IPSUM.split("\n\n"):
+    if line:
+        parts = line.split()
+        if len(parts) == 2:
+            name, number = parts
+            names.append(name)
+            numbers.append(number)
+            max_length = max(max_length, len(name))
+max_length += 20
+x = LOREM_IPSUM.split("\n\n")
+x.pop(-1)
+print(x)
+for line in x:
+    formatted_lorem_ipsum += line.split()[0] + " " * (max_length - len(line)) + line.split()[1] + "\n\n"
+
+print(formatted_lorem_ipsum)
 
 
 class MyWindow(arcade.Window):
     def __init__(self):
-        super().__init__(800, 600, "Scrollable Text", resizable=True)
+        super().__init__(1980, 1080, "Scrollable Text", resizable=True)
         self.bg = arcade.load_texture("env/liders.png")
         self.manager = UIManager()
         self.manager.enable()
@@ -34,19 +55,19 @@ class MyWindow(arcade.Window):
         arcade.set_background_color(arcade.color.DARK_BLUE_GRAY)
 
         bg_tex = load_texture("env/bgliders.png")
-        text_area = UITextArea(x=1000,
-                               y=300,
-                               width=1000,
+        text_area = UITextArea(x=500,
+                               y=200,
+                               width=1500,
                                height=800,
-                               text=LOREM_IPSUM,
-                               text_color=arcade.color.RED,
+                               text=formatted_lorem_ipsum,
+                               text_color=arcade.color.GOLD,
                                font_size=50,
                                font_name="Discharge Pro")
         self.manager.add(
             UITexturePane(
-                text_area.with_space_around(right=20),
+                text_area.with_space_around(),
                 tex=bg_tex,
-                padding=(10, 10, 10, 10),
+                # padding=(10, 10, 10, 10),
 
             )
         )

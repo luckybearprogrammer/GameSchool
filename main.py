@@ -29,6 +29,8 @@ class StartView(arcade.View):
         self.optinonsButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785,
                                                   y=40 + 95 * 3 + 10,
                                                   width=270, height=95)
+        self.quest = arcade.load_texture("env/question.png")
+        self.scaleOfQuest = 0.1
         self.ButtonScale = 1.2
         self.z = 0
         self.huh = arcade.load_sound("env/huh.mp3")
@@ -38,53 +40,19 @@ class StartView(arcade.View):
                 if line.strip() == "None":
                     self.manager = arcade.gui.UIManager()
                     self.manager.enable()
-
-                    # self.v_box = arcade.gui.UIBoxLayout()
-                    #
-                    # # Create a button. We'll click on this to open our window.
-                    # # Add it v_box for positioning.
-                    # open_message_box_button = arcade.gui.UIFlatButton(window.width / 2, window.height / 2,
-                    #                                                   text="почему я не могу играть?",
-                    #                                                   width=400)
-                    # self.v_box.add(open_message_box_button)
-                    #
-                    # # Add a hook to run when we click on the button.
-                    # open_message_box_button.on_click = self.on_click_open
-                    # # Create a widget to hold the v_box widget, that will center the buttons
-                    # self.manager = arcade.gui.UIManager()
-                    # self.manager.enable()
-                    # self.manager.add(
-                    #     arcade.gui.UIAnchorWidget(
-                    #         anchor_x="center_x",
-                    #         anchor_y="center_y",
-                    #         child=self.v_box)
-                    # )
                     self.l = True
                 else:
                     self.l = False
 
     def on_click_open(self):
-
-        # The code in this function is run when we click the ok button.
-
-        # The code below opens the message box and auto-dismisses it when done.
-
         message_box = arcade.gui.UIMessageBox(
-
             width=300,
-
             height=200,
-
             message_text=(
-
                 "Ты должен придумать себе ник в настройках"
-
             ),
-
             callback=self.on_message_box_close,
-
             buttons=["Ok"]
-
         )
 
         self.manager.add(message_box)
@@ -127,6 +95,20 @@ class StartView(arcade.View):
                     self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
         else:
             self.manager.draw()
+            if (window.width / 2 - self.quest.width / 2 * self.scaleOfQuest <= window._mouse_x <=
+                    window.width / 2 + self.quest.width / 2 * self.scaleOfQuest and
+                    window.height / 2 - self.quest.height / 2 * self.scaleOfQuest <= window._mouse_y <=
+                    window.height / 2 + self.quest.height / 2 * self.scaleOfQuest):
+                print("я работаю")
+                arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.quest.width / 2 * (self.scaleOfQuest + 0.05),
+                                                    window.height / 2 - self.quest.height / 2 * (self.scaleOfQuest + 0.05),
+                                                    self.quest.width * (self.scaleOfQuest + 0.05),
+                                                    self.quest.height * (self.scaleOfQuest + 0.05), self.quest)
+            else:
+                arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.quest.width / 2 * self.scaleOfQuest,
+                                                    window.height / 2 - self.quest.height / 2 * self.scaleOfQuest,
+                                                    self.quest.width * self.scaleOfQuest,
+                                                    self.quest.height * self.scaleOfQuest, self.quest)
 
         if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
                 <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
@@ -207,6 +189,12 @@ class StartView(arcade.View):
                 and window.height / 9 - self.iconVk.height / 2 * 0.05 <= y <=
                 window.height / 9 + self.iconVk.height * 0.05):
             webbrowser.open("https://vk.com/blaatnoiii")
+        if (window.width / 2 - self.quest.width / 2 * 0.1 <= x <=
+                window.width / 2 + self.quest.width / 2 * 0.1 and
+                window.height / 2 - self.quest.height / 2 * 0.1 <= y <=
+                window.height / 2 + self.quest.height / 2 * 0.1):
+            self.scaleOfQuest = 0.001
+            self.on_click_open()
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.P:
