@@ -7,7 +7,9 @@ import arcade.gui
 from serclient import *
 
 LANGUAGE = "rus"
-music = arcade.play_sound(arcade.load_sound("env/bgmusic.mp3"), looping=True)
+
+
+# music = arcade.play_sound(arcade.load_sound("env/bgmusic.mp3"), looping=True)
 
 
 # music.volume=0
@@ -15,186 +17,239 @@ music = arcade.play_sound(arcade.load_sound("env/bgmusic.mp3"), looping=True)
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
-        self.bg = arcade.load_texture("env/Default.png")
-        self.bg1 = arcade.load_texture("env/Default.png")
-        self.bgShadow = arcade.load_texture("env/Shadow.png")
-        self.bgChips = arcade.load_texture("env/chips.png")
-        self.exitTexture = arcade.load_texture("env/exit.png")
-        self.optinonsTexture = arcade.load_texture("env/options.png")
-        self.iconVk = arcade.load_texture("env/vk-logo.png")
-        self.startButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785, y=40,
-                                               width=270, height=95)
-        self.exitButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=1055, y=40,
-                                              width=270, height=95)
-        self.optinonsButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785,
-                                                  y=40 + 95 * 3 + 10,
-                                                  width=270, height=95)
-        self.quest = arcade.load_texture("env/question.png")
-        self.scaleOfQuest = 0.1
-        self.ButtonScale = 1.2
-        self.z = 0
-        self.huh = arcade.load_sound("env/huh.mp3")
-        self.font = arcade.load_font("env/DischargePro.ttf")
-        with open("env/user.txt", "r", encoding="utf-8") as file:
-            for line in file:
-                if line.strip() == "None":
-                    self.manager = arcade.gui.UIManager()
-                    self.manager.enable()
-                    self.l = True
-                else:
-                    self.l = False
+        self.one = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                       "Grassy-Meadow-Parallax-Background-v1/Parallax Background/1-sky.png")
+        self.two = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                       "Grassy-Meadow-Parallax-Background-v1/Parallax Background/2-clouds.png")
+        self.three = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                         "Grassy-Meadow-Parallax-Background-v1/Parallax Background/3-hills.png")
+        self.four = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                        "Grassy-Meadow-Parallax-Background-v1/Parallax Background/4-trees.png")
+        self.five = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                        "Grassy-Meadow-Parallax-Background-v1/Parallax Background/5-bushes.png")
+        self.six = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
+                                       "Grassy-Meadow-Parallax-Background-v1/Parallax Background/6-grass.png")
 
-    def on_click_open(self):
-        message_box = arcade.gui.UIMessageBox(
-            width=300,
-            height=200,
-            message_text=(
-                "Ты должен придумать себе ник в настройках"
-            ),
-            callback=self.on_message_box_close,
-            buttons=["Ok"]
-        )
 
-        self.manager.add(message_box)
+        self.minTwo = 0
+        self.minThree = 0
+        self.minFour = 0
+        self.minFive = 0
+        self.minSix = 0
+        # self.bg = arcade.load_texture("env/Default.png")
+        # self.bg1 = arcade.load_texture("env/Default.png")
+        # self.bgShadow = arcade.load_texture("env/Shadow.png")
+        # self.bgChips = arcade.load_texture("env/chips.png")
+        # self.exitTexture = arcade.load_texture("env/exit.png")
+        # self.optinonsTexture = arcade.load_texture("env/options.png")
+        # self.iconVk = arcade.load_texture("env/vk-logo.png")
 
-    def on_message_box_close(self, button_text):
-        print(f"User pressed {button_text}.")
+    #     self.startButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785, y=40,
+    #                                            width=270, height=95)
+    #     self.exitButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=1055, y=40,
+    #                                           width=270, height=95)
+    #     self.optinonsButton = arcade.load_texture("env/cartoon-crystal-ui-collection_52683-73194_1.png", x=785,
+    #                                               y=40 + 95 * 3 + 10,
+    #                                               width=270, height=95)
+    #     self.quest = arcade.load_texture("env/question.png")
+    #     self.scaleOfQuest = 0.1
+    #     self.ButtonScale = 1.2
+    #     self.z = 0
+    #     self.huh = arcade.load_sound("env/huh.mp3")
+    #     self.font = arcade.load_font("env/DischargePro.ttf")
+    #     with open("env/user.txt", "r", encoding="utf-8") as file:
+    #         for line in file:
+    #             if line.strip() == "None":
+    #                 self.manager = arcade.gui.UIManager()
+    #                 self.manager.enable()
+    #                 self.l = True
+    #             else:
+    #                 self.l = False
+    #
+    # def on_click_open(self):
+    #     message_box = arcade.gui.UIMessageBox(
+    #         width=300,
+    #         height=200,
+    #         message_text=(
+    #             "Ты должен придумать себе ник в настройках"
+    #         ),
+    #         callback=self.on_message_box_close,
+    #         buttons=["Ok"]
+    #     )
+    #
+    #     self.manager.add(message_box)
+    #
+    # def on_message_box_close(self, button_text):
+    #     print(f"User pressed {button_text}.")
 
     def on_draw(self):
         self.clear()
-        arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.one)
 
-        arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.05,
-                                            window.height / 9 - self.iconVk.height / 2 * 0.05, self.iconVk.width * 0.05,
-                                            self.iconVk.height * 0.05, self.iconVk)
-        if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= window._mouse_x <=
-                window.width / 10 + self.iconVk.width * 0.05
-                and window.height / 9 - self.iconVk.height / 2 * 0.05 <= window._mouse_y <=
-                window.height / 9 + self.iconVk.height * 0.05):
-            arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.07,
-                                                window.height / 9 - self.iconVk.height / 2 * 0.07,
-                                                self.iconVk.width * 0.07,
-                                                self.iconVk.height * 0.07, self.iconVk)
-        if not self.l:
-            if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-                    <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                    and
-                    window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
-                    <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        arcade.draw_lrwh_rectangle_textured(0 - self.minTwo, 0, window.width, window.height, self.two)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.minTwo, 0, window.width, window.height, self.two)
 
-                arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-                                                    window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
-                                                    self.startButton.width * self.ButtonScale,
-                                                    self.startButton.height * self.ButtonScale, self.startButton)
-            else:
-                arcade.draw_lrwh_rectangle_textured(
-                    window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-                    window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
-                    self.startButton.width * (self.ButtonScale + 0.3),
-                    self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
-        else:
-            self.manager.draw()
-            if (window.width / 2 - self.quest.width / 2 * self.scaleOfQuest <= window._mouse_x <=
-                    window.width / 2 + self.quest.width / 2 * self.scaleOfQuest and
-                    window.height / 2 - self.quest.height / 2 * self.scaleOfQuest <= window._mouse_y <=
-                    window.height / 2 + self.quest.height / 2 * self.scaleOfQuest):
-                arcade.draw_lrwh_rectangle_textured(
-                    window.width / 2 - self.quest.width / 2 * (self.scaleOfQuest + 0.05),
-                    window.height / 2 - self.quest.height / 2 * (self.scaleOfQuest + 0.05),
-                    self.quest.width * (self.scaleOfQuest + 0.05),
-                    self.quest.height * (self.scaleOfQuest + 0.05), self.quest)
-            else:
-                arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.quest.width / 2 * self.scaleOfQuest,
-                                                    window.height / 2 - self.quest.height / 2 * self.scaleOfQuest,
-                                                    self.quest.width * self.scaleOfQuest,
-                                                    self.quest.height * self.scaleOfQuest, self.quest)
+        arcade.draw_lrwh_rectangle_textured(0 - self.minThree, 0, window.width, window.height, self.three)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.minThree, 0, window.width, window.height, self.three)
 
-        if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height <= window._mouse_y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height):
-            arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-                                                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height,
-                                                self.startButton.width * self.ButtonScale,
-                                                self.startButton.height * self.ButtonScale, self.optinonsButton)
-        else:
-            arcade.draw_lrwh_rectangle_textured(
-                window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-                window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.15 * window.height,
-                self.startButton.width * (self.ButtonScale + 0.3),
-                self.startButton.height * (self.ButtonScale + 0.3), self.optinonsButton)
+        arcade.draw_lrwh_rectangle_textured(0 - self.minFour, 0, window.width, window.height, self.four)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.minFour, 0, window.width, window.height, self.four)
 
-        if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height <= window._mouse_y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
-            arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-                                                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height,
-                                                self.startButton.width * self.ButtonScale,
-                                                self.startButton.height * self.ButtonScale, self.exitButton)
-        else:
-            arcade.draw_lrwh_rectangle_textured(
-                window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-                window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.3 * window.height,
-                self.startButton.width * (self.ButtonScale + 0.3),
-                self.startButton.height * (self.ButtonScale + 0.3), self.exitButton)
+        arcade.draw_lrwh_rectangle_textured(0 - self.minFive, 0, window.width, window.height, self.five)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.minFive, 0, window.width, window.height, self.five)
 
-        global LANGUAGE
-        if LANGUAGE == "rus":
-            arcade.draw_text(f"Приключение Степиды и его кентов", window.width / 2, 0.65 * window.height,
-                             arcade.color.WHITE, 70,
-                             font_name="Discharge Pro", anchor_x="center")
-        else:
-            arcade.draw_text(f"The adventure of StepanIA and his Kents", window.width / 2, 0.65 * window.height,
-                             arcade.color.WHITE, 70,
-                             font_name="Discharge Pro", anchor_x="center")
-
-        # arcade.draw_text(temp, window.width / 7, window.height / 7,
-        #                  arcade.color.WHITE, 70,
-        #                  font_name="Discharge Pro", anchor_x="center")
-
-        self.z += 3
-        if self.z > window.width:
-            self.z = 0
+        arcade.draw_lrwh_rectangle_textured(0 - self.minSix, 0, window.width, window.height, self.six)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.minSix, 0, window.width, window.height, self.six)
+        if self.minTwo > window.width:
+            self.minTwo = 0
+        if self.minThree > window.width:
+            self.minThree = 0
+        if self.minFour > window.width:
+            self.minFour = 0
+        if self.minFive > window.width:
+            self.minFive = 0
+        if self.minSix > window.width:
+            self.minSix = 0
+        self.minTwo += 0.5/1980 * window.width
+        self.minThree += 0.8/1980 * window.width
+        self.minFour += 1.1/1980*window.width
+        self.minFive += 1.4/1980*window.width
+        self.minSix += 1.7/1980*window.width
+        # arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        #
+        # arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.05,
+        #                                     window.height / 9 - self.iconVk.height / 2 * 0.05, self.iconVk.width * 0.05,
+        #                                     self.iconVk.height * 0.05, self.iconVk)
+        # if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= window._mouse_x <=
+        #         window.width / 10 + self.iconVk.width * 0.05
+        #         and window.height / 9 - self.iconVk.height / 2 * 0.05 <= window._mouse_y <=
+        #         window.height / 9 + self.iconVk.height * 0.05):
+        #     arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.07,
+        #                                         window.height / 9 - self.iconVk.height / 2 * 0.07,
+        #                                         self.iconVk.width * 0.07,
+        #                                         self.iconVk.height * 0.07, self.iconVk)
+        # if not self.l:
+        #     if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
+        #             <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #             and
+        #             window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
+        #             <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        #
+        #         arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
+        #                                             window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
+        #                                             self.startButton.width * self.ButtonScale,
+        #                                             self.startButton.height * self.ButtonScale, self.startButton)
+        #     else:
+        #         arcade.draw_lrwh_rectangle_textured(
+        #             window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
+        #             window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
+        #             self.startButton.width * (self.ButtonScale + 0.3),
+        #             self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
+        # else:
+        #     self.manager.draw()
+        #     if (window.width / 2 - self.quest.width / 2 * self.scaleOfQuest <= window._mouse_x <=
+        #             window.width / 2 + self.quest.width / 2 * self.scaleOfQuest and
+        #             window.height / 2 - self.quest.height / 2 * self.scaleOfQuest <= window._mouse_y <=
+        #             window.height / 2 + self.quest.height / 2 * self.scaleOfQuest):
+        #         arcade.draw_lrwh_rectangle_textured(
+        #             window.width / 2 - self.quest.width / 2 * (self.scaleOfQuest + 0.05),
+        #             window.height / 2 - self.quest.height / 2 * (self.scaleOfQuest + 0.05),
+        #             self.quest.width * (self.scaleOfQuest + 0.05),
+        #             self.quest.height * (self.scaleOfQuest + 0.05), self.quest)
+        #     else:
+        #         arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.quest.width / 2 * self.scaleOfQuest,
+        #                                             window.height / 2 - self.quest.height / 2 * self.scaleOfQuest,
+        #                                             self.quest.width * self.scaleOfQuest,
+        #                                             self.quest.height * self.scaleOfQuest, self.quest)
+        #
+        # if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
+        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #         and
+        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height <= window._mouse_y
+        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height):
+        #     arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
+        #                                         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height,
+        #                                         self.startButton.width * self.ButtonScale,
+        #                                         self.startButton.height * self.ButtonScale, self.optinonsButton)
+        # else:
+        #     arcade.draw_lrwh_rectangle_textured(
+        #         window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
+        #         window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.15 * window.height,
+        #         self.startButton.width * (self.ButtonScale + 0.3),
+        #         self.startButton.height * (self.ButtonScale + 0.3), self.optinonsButton)
+        #
+        # if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
+        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #         and
+        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height <= window._mouse_y
+        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
+        #     arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
+        #                                         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height,
+        #                                         self.startButton.width * self.ButtonScale,
+        #                                         self.startButton.height * self.ButtonScale, self.exitButton)
+        # else:
+        #     arcade.draw_lrwh_rectangle_textured(
+        #         window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
+        #         window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.3 * window.height,
+        #         self.startButton.width * (self.ButtonScale + 0.3),
+        #         self.startButton.height * (self.ButtonScale + 0.3), self.exitButton)
+        #
+        # global LANGUAGE
+        # if LANGUAGE == "rus":
+        #     arcade.draw_text(f"Приключение Степиды и его кентов", window.width / 2, 0.65 * window.height,
+        #                      arcade.color.WHITE, 70,
+        #                      font_name="Discharge Pro", anchor_x="center")
+        # else:
+        #     arcade.draw_text(f"The adventure of StepanIA and his Kents", window.width / 2, 0.65 * window.height,
+        #                      arcade.color.WHITE, 70,
+        #                      font_name="Discharge Pro", anchor_x="center")
+        #
+        # # arcade.draw_text(temp, window.width / 7, window.height / 7,
+        # #                  arcade.color.WHITE, 70,
+        # #                  font_name="Discharge Pro", anchor_x="center")
+        #
+        # self.z += 3
+        # if self.z > window.width:
+        #     self.z = 0
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        if not self.l and (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
-                           <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                           and
-                           window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= y
-                           <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
-            arcade.play_sound(self.huh)
-            global chipsView
-            self.window.show_view(chipsView)
-        if (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height <= y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height):
-            global optView
-            optView.z = self.z
-            self.window.show_view(optView)
-        if (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
-                <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-                and
-                window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height <= y
-                <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
-            arcade.play_sound(self.huh)
-            arcade.exit()
-        if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= x <=
-                window.width / 10 + self.iconVk.width * 0.05
-                and window.height / 9 - self.iconVk.height / 2 * 0.05 <= y <=
-                window.height / 9 + self.iconVk.height * 0.05):
-            webbrowser.open("https://vk.com/blaatnoiii")
-        if (window.width / 2 - self.quest.width / 2 * 0.1 <= x <=
-                window.width / 2 + self.quest.width / 2 * 0.1 and
-                window.height / 2 - self.quest.height / 2 * 0.1 <= y <=
-                window.height / 2 + self.quest.height / 2 * 0.1):
-            self.scaleOfQuest = 0.001
-            self.on_click_open()
+        pass
+
+        # if not self.l and (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
+        #                    <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #                    and
+        #                    window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= y
+        #                    <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        #     arcade.play_sound(self.huh)
+        #     global chipsView
+        #     self.window.show_view(chipsView)
+        # if (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
+        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #         and
+        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height <= y
+        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height):
+        #     global optView
+        #     optView.z = self.z
+        #     self.window.show_view(optView)
+        # if (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
+        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
+        #         and
+        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height <= y
+        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
+        #     arcade.play_sound(self.huh)
+        #     arcade.exit()
+        # if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= x <=
+        #         window.width / 10 + self.iconVk.width * 0.05
+        #         and window.height / 9 - self.iconVk.height / 2 * 0.05 <= y <=
+        #         window.height / 9 + self.iconVk.height * 0.05):
+        #     webbrowser.open("https://vk.com/blaatnoiii")
+        # if (window.width / 2 - self.quest.width / 2 * 0.1 <= x <=
+        #         window.width / 2 + self.quest.width / 2 * 0.1 and
+        #         window.height / 2 - self.quest.height / 2 * 0.1 <= y <=
+        #         window.height / 2 + self.quest.height / 2 * 0.1):
+        #     self.scaleOfQuest = 0.001
+        #     self.on_click_open()
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.P:
@@ -380,22 +435,37 @@ class OptionsView(arcade.View):
 class ChipsView(arcade.View):
     def __init__(self):
         super().__init__()
+        self.camera = arcade.Camera(window.width, window.height)
         self.bg = arcade.load_texture("env/chips.png")
         self.z = 0
         self.huh = arcade.load_sound("env/huh.mp3")
+        self.tile_map = arcade.load_tilemap("env/pix.tmx",1.5)
+        print(self.tile_map.sprite_lists)
+        self.scene = arcade.Scene()
+        for i in self.tile_map.sprite_lists["ground"]:
+            self.scene.add_sprite("ground", i)
+        self.x=0
 
     def on_draw(self):
         self.clear()
-        arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        # arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        self.scene.draw()
         self.z += 5
         if self.z > window.width:
             self.z = 0
+        self.x += 7
+        self.camera.move((self.x, 0))
+        self.camera.use()
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.ESCAPE:
             arcade.play_sound(self.huh)
             self.window.show_view(start_view)
+        if symbol==arcade.key.D:
+            pass
+
+
 
 
 class LidersView(arcade.View):

@@ -1,7 +1,7 @@
 import requests
 import asyncio
 
-urlServer = "https://e690-79-165-25-253.ngrok-free.app"
+urlServer = "https://72a8-193-232-169-73.ngrok-free.app"
 
 
 # Отправка числа в API для записи в файл
