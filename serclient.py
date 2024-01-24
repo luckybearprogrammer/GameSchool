@@ -1,34 +1,54 @@
-import asyncio
 import requests
 
 urlServer = "https://0ca5-79-165-25-253.ngrok-free.app"
 
 
-async def send_number_to_api(number, iduser):
+# Отправка числа в API для записи в файл
+def send_number_to_api(number, iduser):
     url = f'{urlServer}/write_number'
     data = {'number': number, 'iduser': iduser}
-    loop = asyncio.get_event_loop()
-    response = await loop.run_in_executor(None, lambda: requests.post(url, json=data))
+    response = requests.post(url, json=data)
     print(response.status_code)
+    print(response)
     if response.status_code == 200:
         print('Number has been sent to the API and written to the file')
     else:
         print('Failed to send the number to the API')
 
 
-async def mesto(nick):
-    data = {"iduser": nick}
-    url = f"{urlServer}/mesto"
-    loop = asyncio.get_event_loop()
-    response = await loop.run_in_executor(None, lambda: requests.post(url, json=data))
+def can(iduser):
+    url = f'{urlServer}/can'
+    data = {'nick': iduser}
+    response = requests.post(url, json=data)
     print(response.status_code)
+    print(response.json())
+    if response.status_code == 200 and response.json()["can"]:
+        return True
+    elif response.status_code == 200:
+        return False
+    else:
+        return False
+
+
+def top():
+    url = f'{urlServer}/top'
+    response = requests.post(url)
     if response.status_code == 200:
-        result = response.json()
-        print(result["index"])
+        return response.json()["top"].split("lol")
+    else:
+        return "иди лесом"
 
 
-async def main():
-    await asyncio.gather(mesto("wkemefe"), send_number_to_api(9999999, "wkemefe"), mesto("wkemefe"))
+def result(nick):
+    data = {"nick": nick}
+    response = requests.post(f"{urlServer}/myresult", json=data)
+    if response.status_code == 200:
+        return response.json()["result"]
 
 
-asyncio.run(main())
+def mesto(nick):
+    data = {"iduser": nick}
+    response = requests.post(f"{urlServer}/mesto", json=data)
+    if response.status_code == 200:
+        return response.json()["index"]
+# send_number_to_api(1212348797213, "цувцуауц")
