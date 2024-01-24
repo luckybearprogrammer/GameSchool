@@ -24,33 +24,48 @@ class Player(arcade.Sprite):
         super().__init__(scale=scale)
         self.person_face_direction = RIGHT_FACING
         self.run_texture = []
+        self.idle_texture = []
+        self.jump_texture = []
         for i in range(10):
-            arcade.load_texture("env/sprite/Colour1/Outline/120x80_PNGSheets/_Run.png")
             texture = load_texture_pair(f"env/sprite/Colour1/Outline/120x80_PNGSheets/_Run.png", x=i * 120, y=0,
                                         width=120, height=80)
             self.run_texture.append(texture)
+            texture = load_texture_pair(f"env/sprite/Colour1/Outline/120x80_PNGSheets/_Idle.png", x=i * 120, y=0,
+                                        width=120, height=80)
+            self.idle_texture.append(texture)
+        for i in range(3):
+            texture = load_texture_pair(f"env/sprite/Colour1/Outline/120x80_PNGSheets/_Jump.png", x=i * 120, y=0,
+                                        width=120, height=80)
+            self.jump_texture.append(texture)
         self.current_texture = 0
-        self.idle_texture = load_texture_pair(f"env/sprite/Colour1/Outline/120x80_PNGSheets/_Idle.png", x=0, y=0,
-                                              width=120, height=80)
-        self.texture = self.idle_texture[0]
+        self.chetjump = 0
+        # self.idle_texture = load_texture_pair(f"env/sprite/Colour1/Outline/120x80_PNGSheets/_Idle.png", x=0, y=0,
+        #                                       width=120, height=80)
+        self.texture = self.idle_texture[0][self.person_face_direction]
         self.start = time.time()
         # self.scale=scale
 
     def update_animation(self, delta_time: float = 1 / 60):
-        if self.change_x == 0:
-            self.texture = self.idle_texture[self.person_face_direction]
-            return
+
         if self.change_x < 0 and self.person_face_direction == RIGHT_FACING:
             self.person_face_direction = LEFT_FACING
         if self.change_x > 0 and self.person_face_direction == LEFT_FACING:
             self.person_face_direction = RIGHT_FACING
-        self.texture = self.run_texture[self.current_texture][self.person_face_direction]
-        print(time.time() - self.start)
+        if self.change_x == 0 and self.change_y == 0:
+            self.texture = self.idle_texture[self.current_texture][self.person_face_direction]
+        elif abs(self.change_x) > 0 and self.change_y == 0:
+            self.texture = self.run_texture[self.current_texture][self.person_face_direction]
+        elif self.change_y > 0:
+            self.texture = self.jump_texture[self.chetjump][self.person_face_direction]
+
         if time.time() - self.start > 0.05:
             self.current_texture += 1
+            self.chetjump += 1
             self.start = time.time()
         if self.current_texture >= 10:
             self.current_texture = 0
+        if self.chetjump >= 3:
+            self.chetjump = 0
 
 
 class MyWindow(arcade.Window):
@@ -71,6 +86,7 @@ class MyWindow(arcade.Window):
 
     def on_draw(self):
         self.clear()
+        arcade.draw_text(f"{self.player.position}", self.width / 2, self.height / 2, font_size=80)
         # arcade.draw_lrwh_rectangle_textured(0, 0, 3200, 1000, self.background_texture)
         self.scene.draw()
         self.enemy_list.draw()

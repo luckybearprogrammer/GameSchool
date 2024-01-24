@@ -1492,6 +1492,98 @@
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ipaddress.py',
    'PYMODULE'),
+  ('jinja2',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\__init__.py',
+   'PYMODULE'),
+  ('jinja2._identifier',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\_identifier.py',
+   'PYMODULE'),
+  ('jinja2.async_utils',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\async_utils.py',
+   'PYMODULE'),
+  ('jinja2.bccache',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\bccache.py',
+   'PYMODULE'),
+  ('jinja2.compiler',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\compiler.py',
+   'PYMODULE'),
+  ('jinja2.constants',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\constants.py',
+   'PYMODULE'),
+  ('jinja2.debug',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\debug.py',
+   'PYMODULE'),
+  ('jinja2.defaults',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\defaults.py',
+   'PYMODULE'),
+  ('jinja2.environment',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\environment.py',
+   'PYMODULE'),
+  ('jinja2.exceptions',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\exceptions.py',
+   'PYMODULE'),
+  ('jinja2.ext',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\ext.py',
+   'PYMODULE'),
+  ('jinja2.filters',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\filters.py',
+   'PYMODULE'),
+  ('jinja2.idtracking',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\idtracking.py',
+   'PYMODULE'),
+  ('jinja2.lexer',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\lexer.py',
+   'PYMODULE'),
+  ('jinja2.loaders',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\loaders.py',
+   'PYMODULE'),
+  ('jinja2.nodes',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\nodes.py',
+   'PYMODULE'),
+  ('jinja2.optimizer',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\optimizer.py',
+   'PYMODULE'),
+  ('jinja2.parser',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\parser.py',
+   'PYMODULE'),
+  ('jinja2.runtime',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\runtime.py',
+   'PYMODULE'),
+  ('jinja2.sandbox',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\sandbox.py',
+   'PYMODULE'),
+  ('jinja2.tests',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\tests.py',
+   'PYMODULE'),
+  ('jinja2.utils',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\utils.py',
+   'PYMODULE'),
+  ('jinja2.visitor',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\jinja2\\visitor.py',
+   'PYMODULE'),
   ('json',
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\json\\__init__.py',
@@ -1515,6 +1607,14 @@
   ('lzma',
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\lzma.py',
+   'PYMODULE'),
+  ('markupsafe',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\markupsafe\\__init__.py',
+   'PYMODULE'),
+  ('markupsafe._native',
+   'C:\\Users\\Mike '
+   'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\markupsafe\\_native.py',
    'PYMODULE'),
   ('mimetypes',
    'C:\\Users\\Mike '
@@ -2976,6 +3076,9 @@
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\selectors.py',
    'PYMODULE'),
+  ('serclient',
+   'C:\\Users\\Mike Kondrashov\\PycharmProjects\\GameSchool\\serclient.py',
+   'PYMODULE'),
   ('setuptools',
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\setuptools\\__init__.py',
@@ -3859,9 +3962,6 @@
   ('wave',
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\wave.py',
-   'PYMODULE'),
-  ('weather',
-   'C:\\Users\\Mike Kondrashov\\PycharmProjects\\GameSchool\\weather.py',
    'PYMODULE'),
   ('webbrowser',
    'C:\\Users\\Mike '

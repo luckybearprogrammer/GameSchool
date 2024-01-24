@@ -1,15 +1,20 @@
 import random
-
-import arcade
+import time
 import webbrowser
-from weather import get_current_weather
+from pyglet.image import load as pyglet_load
+import arcade
 import arcade.gui
+
 from serclient import *
 
 LANGUAGE = "rus"
 
-
 # music = arcade.play_sound(arcade.load_sound("env/bgmusic.mp3"), looping=True)
+with open("env/user.txt", "r", encoding="utf-8") as file:
+    for line in file:
+        nick = line.strip()
+result = result(nick)
+mesto = mesto(nick)
 
 
 # music.volume=0
@@ -17,6 +22,9 @@ LANGUAGE = "rus"
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
+        global result, mesto
+        self.result = result
+        self.mesto = mesto
         self.one = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
                                        "Grassy-Meadow-Parallax-Background-v1/Parallax Background/1-sky.png")
         self.two = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
@@ -30,12 +38,26 @@ class StartView(arcade.View):
         self.six = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
                                        "Grassy-Meadow-Parallax-Background-v1/Parallax Background/6-grass.png")
 
+        self.bg = []
+
+        for i in range(1, 61):
+            self.bg.append(arcade.load_texture(f"env/parallax/mainbg/full with noise{i}.jpg"))
+        self.i = 0
+        self.start = time.time()
 
         self.minTwo = 0
         self.minThree = 0
         self.minFour = 0
         self.minFive = 0
         self.minSix = 0
+
+        arcade.load_font("env/yukari.ttf")
+
+        self.startButton = arcade.load_texture("env/startButton.png")
+        self.rewards = arcade.load_texture("env/rewards.png")
+        self.table = arcade.load_texture("env/table.png")
+        self.exit = arcade.load_texture("env/exit.png")
+        # self.
         # self.bg = arcade.load_texture("env/Default.png")
         # self.bg1 = arcade.load_texture("env/Default.png")
         # self.bgShadow = arcade.load_texture("env/Shadow.png")
@@ -84,134 +106,69 @@ class StartView(arcade.View):
 
     def on_draw(self):
         self.clear()
-        arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.one)
-
-        arcade.draw_lrwh_rectangle_textured(0 - self.minTwo, 0, window.width, window.height, self.two)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.minTwo, 0, window.width, window.height, self.two)
-
-        arcade.draw_lrwh_rectangle_textured(0 - self.minThree, 0, window.width, window.height, self.three)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.minThree, 0, window.width, window.height, self.three)
-
-        arcade.draw_lrwh_rectangle_textured(0 - self.minFour, 0, window.width, window.height, self.four)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.minFour, 0, window.width, window.height, self.four)
-
-        arcade.draw_lrwh_rectangle_textured(0 - self.minFive, 0, window.width, window.height, self.five)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.minFive, 0, window.width, window.height, self.five)
-
-        arcade.draw_lrwh_rectangle_textured(0 - self.minSix, 0, window.width, window.height, self.six)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.minSix, 0, window.width, window.height, self.six)
-        if self.minTwo > window.width:
-            self.minTwo = 0
-        if self.minThree > window.width:
-            self.minThree = 0
-        if self.minFour > window.width:
-            self.minFour = 0
-        if self.minFive > window.width:
-            self.minFive = 0
-        if self.minSix > window.width:
-            self.minSix = 0
-        self.minTwo += 0.5/1980 * window.width
-        self.minThree += 0.8/1980 * window.width
-        self.minFour += 1.1/1980*window.width
-        self.minFive += 1.4/1980*window.width
-        self.minSix += 1.7/1980*window.width
-        # arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.bg[self.i])
+        if time.time() - self.start > 1 / 10:
+            self.i += 1
+            self.start = time.time()
+        if self.i >= 60:
+            self.i = 0
+        # arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.one)
         #
-        # arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.05,
-        #                                     window.height / 9 - self.iconVk.height / 2 * 0.05, self.iconVk.width * 0.05,
-        #                                     self.iconVk.height * 0.05, self.iconVk)
-        # if (window.width / 10 - self.iconVk.width / 2 * 0.05 <= window._mouse_x <=
-        #         window.width / 10 + self.iconVk.width * 0.05
-        #         and window.height / 9 - self.iconVk.height / 2 * 0.05 <= window._mouse_y <=
-        #         window.height / 9 + self.iconVk.height * 0.05):
-        #     arcade.draw_lrwh_rectangle_textured(window.width / 10 - self.iconVk.width / 2 * 0.07,
-        #                                         window.height / 9 - self.iconVk.height / 2 * 0.07,
-        #                                         self.iconVk.width * 0.07,
-        #                                         self.iconVk.height * 0.07, self.iconVk)
-        # if not self.l:
-        #     if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-        #             <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-        #             and
-        #             window.height / 2 - self.startButton.height / 2 * self.ButtonScale <= window._mouse_y
-        #             <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale):
+        # arcade.draw_lrwh_rectangle_textured(0 - self.minTwo, 0, window.width, window.height, self.two)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.minTwo, 0, window.width, window.height, self.two)
         #
-        #         arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-        #                                             window.height / 2 - self.startButton.height / 2 * self.ButtonScale,
-        #                                             self.startButton.width * self.ButtonScale,
-        #                                             self.startButton.height * self.ButtonScale, self.startButton)
-        #     else:
-        #         arcade.draw_lrwh_rectangle_textured(
-        #             window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-        #             window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3),
-        #             self.startButton.width * (self.ButtonScale + 0.3),
-        #             self.startButton.height * (self.ButtonScale + 0.3), self.startButton)
-        # else:
-        #     self.manager.draw()
-        #     if (window.width / 2 - self.quest.width / 2 * self.scaleOfQuest <= window._mouse_x <=
-        #             window.width / 2 + self.quest.width / 2 * self.scaleOfQuest and
-        #             window.height / 2 - self.quest.height / 2 * self.scaleOfQuest <= window._mouse_y <=
-        #             window.height / 2 + self.quest.height / 2 * self.scaleOfQuest):
-        #         arcade.draw_lrwh_rectangle_textured(
-        #             window.width / 2 - self.quest.width / 2 * (self.scaleOfQuest + 0.05),
-        #             window.height / 2 - self.quest.height / 2 * (self.scaleOfQuest + 0.05),
-        #             self.quest.width * (self.scaleOfQuest + 0.05),
-        #             self.quest.height * (self.scaleOfQuest + 0.05), self.quest)
-        #     else:
-        #         arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.quest.width / 2 * self.scaleOfQuest,
-        #                                             window.height / 2 - self.quest.height / 2 * self.scaleOfQuest,
-        #                                             self.quest.width * self.scaleOfQuest,
-        #                                             self.quest.height * self.scaleOfQuest, self.quest)
+        # arcade.draw_lrwh_rectangle_textured(0 - self.minThree, 0, window.width, window.height, self.three)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.minThree, 0, window.width, window.height, self.three)
         #
-        # if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-        #         and
-        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height <= window._mouse_y
-        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height):
-        #     arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-        #                                         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.15 * window.height,
-        #                                         self.startButton.width * self.ButtonScale,
-        #                                         self.startButton.height * self.ButtonScale, self.optinonsButton)
-        # else:
-        #     arcade.draw_lrwh_rectangle_textured(
-        #         window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-        #         window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.15 * window.height,
-        #         self.startButton.width * (self.ButtonScale + 0.3),
-        #         self.startButton.height * (self.ButtonScale + 0.3), self.optinonsButton)
+        # arcade.draw_lrwh_rectangle_textured(0 - self.minFour, 0, window.width, window.height, self.four)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.minFour, 0, window.width, window.height, self.four)
         #
-        # if not (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= window._mouse_x
-        #         <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
-        #         and
-        #         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height <= window._mouse_y
-        #         <= window.height / 2 + self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height):
-        #     arcade.draw_lrwh_rectangle_textured(window.width / 2 - self.startButton.width / 2 * self.ButtonScale,
-        #                                         window.height / 2 - self.startButton.height / 2 * self.ButtonScale - 0.3 * window.height,
-        #                                         self.startButton.width * self.ButtonScale,
-        #                                         self.startButton.height * self.ButtonScale, self.exitButton)
-        # else:
-        #     arcade.draw_lrwh_rectangle_textured(
-        #         window.width / 2 - self.startButton.width / 2 * (self.ButtonScale + 0.3),
-        #         window.height / 2 - self.startButton.height / 2 * (self.ButtonScale + 0.3) - 0.3 * window.height,
-        #         self.startButton.width * (self.ButtonScale + 0.3),
-        #         self.startButton.height * (self.ButtonScale + 0.3), self.exitButton)
+        # arcade.draw_lrwh_rectangle_textured(0 - self.minFive, 0, window.width, window.height, self.five)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.minFive, 0, window.width, window.height, self.five)
         #
-        # global LANGUAGE
-        # if LANGUAGE == "rus":
-        #     arcade.draw_text(f"Приключение Степиды и его кентов", window.width / 2, 0.65 * window.height,
-        #                      arcade.color.WHITE, 70,
-        #                      font_name="Discharge Pro", anchor_x="center")
-        # else:
-        #     arcade.draw_text(f"The adventure of StepanIA and his Kents", window.width / 2, 0.65 * window.height,
-        #                      arcade.color.WHITE, 70,
-        #                      font_name="Discharge Pro", anchor_x="center")
+        # arcade.draw_lrwh_rectangle_textured(0 - self.minSix, 0, window.width, window.height, self.six)
+        # arcade.draw_lrwh_rectangle_textured(window.width - self.minSix, 0, window.width, window.height, self.six)
         #
-        # # arcade.draw_text(temp, window.width / 7, window.height / 7,
-        # #                  arcade.color.WHITE, 70,
-        # #                  font_name="Discharge Pro", anchor_x="center")
+        arcade.draw_lrwh_rectangle_textured(window.width / 8 - self.startButton.width / 2 * 0.52,
+                                            window.height / 1.7 - self.startButton.height / 2 * 0.835,
+                                            self.startButton.width * 0.3,
+                                            self.startButton.height * 0.3, self.startButton)
+        arcade.draw_lrwh_rectangle_textured(window.width / 8 - self.rewards.width / 2 * 0.4,
+                                            window.height / 2.7 - self.rewards.height / 2 * 0.4,
+                                            self.rewards.width * 0.4,
+                                            self.rewards.height * 0.4, self.rewards)
+        arcade.draw_lrwh_rectangle_textured(window.width / 8 - self.table.width / 2 * 0.6,
+                                            window.height / 3.7 - self.table.height / 2 * 0.4,
+                                            self.table.width * 0.4,
+                                            self.table.height * 0.4, self.table)
+        arcade.draw_lrwh_rectangle_textured(window.width / 8 - self.exit.width / 2 * 0.32,
+                                            window.height / 9.7 - self.exit.height / 2 * 0.1,
+                                            self.exit.width * 0.1,
+                                            self.exit.height * 0.1, self.exit)
+        arcade.draw_text(f"{self.mesto} mesto", window.width / 2, window.height / 2, anchor_x="center",
+                         color=arcade.color.WHITE, font_name="Yukarimobile", font_size=80)
+        arcade.draw_text(f"{self.result} best result", window.width / 2, window.height / 3, anchor_x="center",
+                         color=arcade.color.WHITE, font_name="Yukarimobile", font_size=80)
+        # arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.logo)
         #
-        # self.z += 3
-        # if self.z > window.width:
-        #     self.z = 0
+        # arcade.draw_text(f"{self.result}", start_x=window.width / 8, start_y=window.height / 6.7, anchor_x="center",
+        #                  color=arcade.color.WHITE, font_size=80, font_name="Yukarimobile")
+        #
+        # if self.minTwo > window.width:
+        #     self.minTwo = 0
+        # if self.minThree > window.width:
+        #     self.minThree = 0
+        # if self.minFour > window.width:
+        #     self.minFour = 0
+        # if self.minFive > window.width:
+        #     self.minFive = 0
+        # if self.minSix > window.width:
+        #     self.minSix = 0
+        # self.minTwo += 0.5 / 1980 * window.width
+        # self.minThree += 0.8 / 1980 * window.width
+        # self.minFour += 1.1 / 1980 * window.width
+        # self.minFive += 1.4 / 1980 * window.width
+        # self.minSix += 1.7 / 1980 * window.width
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         pass
@@ -439,12 +396,12 @@ class ChipsView(arcade.View):
         self.bg = arcade.load_texture("env/chips.png")
         self.z = 0
         self.huh = arcade.load_sound("env/huh.mp3")
-        self.tile_map = arcade.load_tilemap("env/pix.tmx",1.5)
-        print(self.tile_map.sprite_lists)
+        self.tile_map = arcade.load_tilemap("env/pix.tmx", 1.5)
+        # print(self.tile_map.sprite_lists)
         self.scene = arcade.Scene()
         for i in self.tile_map.sprite_lists["ground"]:
             self.scene.add_sprite("ground", i)
-        self.x=0
+        self.x = 0
 
     def on_draw(self):
         self.clear()
@@ -462,10 +419,8 @@ class ChipsView(arcade.View):
         if symbol == arcade.key.ESCAPE:
             arcade.play_sound(self.huh)
             self.window.show_view(start_view)
-        if symbol==arcade.key.D:
+        if symbol == arcade.key.D:
             pass
-
-
 
 
 class LidersView(arcade.View):
@@ -520,8 +475,11 @@ class LidersView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1980, 1080, resizable=True)
+window = arcade.Window(1980, 1080, fullscreen=True)
+# Load the icon image
 
+
+window.set_icon(pyglet_load("env/lo.png"))
 # window = arcade.Window(fullscreen=True)
 start_view = StartView()
 chipsView = ChipsView()
