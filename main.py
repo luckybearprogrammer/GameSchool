@@ -25,6 +25,9 @@ class StartView(arcade.View):
         global result, mesto
         self.result = result
         self.mesto = mesto
+
+        self.resultTexture = arcade.load_texture("env/buttons/result.png")
+        self.recordTexture = arcade.load_texture("env/buttons/record.png")
         self.one = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
                                        "Grassy-Meadow-Parallax-Background-v1/Parallax Background/1-sky.png")
         self.two = arcade.load_texture("env/parallax/Grassy-Meadow-Parallax-Background-v1/"
@@ -53,14 +56,14 @@ class StartView(arcade.View):
 
         arcade.load_font("env/yukari.ttf")
         self.nameOfGame = arcade.load_texture("env/name.png")
-        self.startStatic = arcade.load_texture("env/startStatic.png")
-        self.startDinamic = arcade.load_texture("env/startDinamic.png")
-        self.rewardsStatic = arcade.load_texture("env/rewardsStatic.png")
-        self.rewardsDinamic = arcade.load_texture("env/rewardsDinamic.png")
-        self.tableStatic = arcade.load_texture("env/tableStatic.png")
-        self.tableDinamic = arcade.load_texture("env/tableDinamic.png")
-        self.exitStatic = arcade.load_texture("env/exitStatic.png")
-        self.exitDinamic = arcade.load_texture("env/exitDinamic.png")
+        self.startStatic = arcade.load_texture("env/buttons/startStatic.png")
+        self.startDinamic = arcade.load_texture("env/buttons/startDinamic.png")
+        self.rewardsStatic = arcade.load_texture("env/buttons/rewardsStatic.png")
+        self.rewardsDinamic = arcade.load_texture("env/buttons/rewardsDinamic.png")
+        self.topStatic = arcade.load_texture("env/buttons/topStatic.png")
+        self.topDinamic = arcade.load_texture("env/buttons/topDinamic.png")
+        self.exitStatic = arcade.load_texture("env/buttons/exitStatic.png")
+        self.exitDinamic = arcade.load_texture("env/buttons/exitDinamic.png")
         # self.
         # self.bg = arcade.load_texture("env/Default.png")
         # self.bg1 = arcade.load_texture("env/Default.png")
@@ -116,50 +119,54 @@ class StartView(arcade.View):
             self.start = time.time()
         if self.i >= 60:
             self.i = 0
-        # arcade.draw_lrwh_rectangle_textured(0, 0, window.width, window.height, self.one)
-        #
-        # arcade.draw_lrwh_rectangle_textured(0 - self.minTwo, 0, window.width, window.height, self.two)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.minTwo, 0, window.width, window.height, self.two)
-        #
-        # arcade.draw_lrwh_rectangle_textured(0 - self.minThree, 0, window.width, window.height, self.three)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.minThree, 0, window.width, window.height, self.three)
-        #
-        # arcade.draw_lrwh_rectangle_textured(0 - self.minFour, 0, window.width, window.height, self.four)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.minFour, 0, window.width, window.height, self.four)
-        #
-        # arcade.draw_lrwh_rectangle_textured(0 - self.minFive, 0, window.width, window.height, self.five)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.minFive, 0, window.width, window.height, self.five)
-        #
-        # arcade.draw_lrwh_rectangle_textured(0 - self.minSix, 0, window.width, window.height, self.six)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.minSix, 0, window.width, window.height, self.six)
-        #
-        arcade.draw_lrwh_rectangle_textured(0, window.height / 1.6, self.nameOfGame.width * 0.6,
+        arcade.draw_lrwh_rectangle_textured(0, window.height / 1.4, self.nameOfGame.width * 0.6,
                                             self.nameOfGame.height * 0.6, self.nameOfGame)
 
-        if (window.width / 35 <= window._mouse_x <= window.width / 35 + self.startDinamic.width * 0.25 and
-                window.height / 1.9 <= window._mouse_y <= window.height / 1.9 + self.startDinamic.height * 0.25):
+        arcade.draw_lrwh_rectangle_textured(window.width / 35,
+                                            window.height / 1.7,
+                                            self.startDinamic.width * 0.23,
+                                            self.startDinamic.height * 0.23, self.startStatic)
+        if (window.width / 35 <= window._mouse_x <= window.width / 35 + self.startDinamic.width * 0.23 and
+                window.height / 1.7 <= window._mouse_y <= window.height / 1.7 + self.startDinamic.height * 0.23):
             arcade.draw_lrwh_rectangle_textured(window.width / 35,
-                                                window.height / 1.9,
-                                                self.startDinamic.width * 0.25,
-                                                self.startDinamic.height * 0.25, self.startDinamic)
-        else:
-            arcade.draw_lrwh_rectangle_textured(window.width / 35,
-                                                window.height / 1.9,
-                                                self.startDinamic.width * 0.25,
-                                                self.startDinamic.height * 0.25, self.startStatic)
+                                                window.height / 1.7,
+                                                self.startDinamic.width * 0.23,
+                                                self.startDinamic.height * 0.23, self.startDinamic)
+
+        arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2,
+                                            self.rewardsStatic.width * 0.25, self.rewardsStatic.height * 0.25,
+                                            self.rewardsStatic)
         if (window.width / 35 <= window._mouse_x <= window.width / 35 + self.rewardsStatic.width * 0.25 and
-                window.height / 2.1 <= window._mouse_y <= window.height / 2.1 + self.rewardsStatic.height * 0.25):
-            arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2.1,
+                window.height / 2 <= window._mouse_y <= window.height / 2 + self.rewardsStatic.height * 0.25):
+            arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2,
                                                 self.rewardsStatic.width * 0.25, self.rewardsStatic.height * 0.25,
                                                 self.rewardsDinamic)
-        else:
-            arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2.1,
-                                                self.rewardsStatic.width * 0.25, self.rewardsStatic.height * 0.25,
-                                                self.rewardsStatic)
-        arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2.7, self.tableStatic.width * 0.2,
-                                            self.tableStatic.height * 0.2, self.tableStatic)
-        arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 7, self.exitStatic.width * 0.13,
-                                            self.exitStatic.height * 0.13, self.exitStatic)
+
+        arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2.3, self.topStatic.width * 0.15,
+                                            self.topStatic.height * 0.15, self.topStatic)
+        if (window.width / 35 <= window._mouse_x <= window.width / 35 + self.topStatic.width * 0.15 and
+                window.height / 2.3 <= window._mouse_y <= window.height / 2.3 + self.topStatic.height * 0.15):
+            arcade.draw_lrwh_rectangle_textured(window.width / 35, window.height / 2.3, self.topStatic.width * 0.14,
+                                                self.topStatic.height * 0.14, self.topDinamic)
+        arcade.draw_text(f"{self.mesto}", window.width / 35 + self.topStatic.width * 0.206,
+                         window.height / 2.3 + self.topStatic.height * 0.011, anchor_x="center",
+                         color=(245, 148, 24), font_name="Yukarimobile", font_size=40)
+        arcade.draw_text(f"{self.mesto}", window.width / 35 + self.topStatic.width * 0.2,
+                         window.height / 2.3 + self.topStatic.height * 0.03, anchor_x="center",
+                         color=arcade.color.WHITE, font_name="Yukarimobile", font_size=40)
+
+        arcade.draw_lrwh_rectangle_textured(window.width / 22, window.height / 4.8, self.resultTexture.width * 0.13,
+                                            self.resultTexture.height * 0.13, self.resultTexture)
+        arcade.draw_lrwh_rectangle_textured(window.width / 7, window.height / 4.95, self.recordTexture.width * 0.15,
+                                            self.recordTexture.height * 0.15, self.recordTexture)
+
+        arcade.draw_lrwh_rectangle_textured(window.width / 33, window.height / 9, self.exitStatic.width * 0.08,
+                                            self.exitStatic.height * 0.08, self.exitStatic)
+        if (window.width / 33 <= window._mouse_x <= window.width / 33 + self.exitStatic.width * 0.08 and
+                window.height / 9 <= window._mouse_y <= window.height / 9 + self.exitStatic.height * 0.08):
+            arcade.draw_lrwh_rectangle_textured(window.width / 33, window.height / 9, self.exitStatic.width * 0.08,
+                                                self.exitStatic.height * 0.08, self.exitDinamic)
+        # arcade.draw_line(window.width / 25, 0, window.width / 25, window.height, arcade.color.WHITE)
 
         # arcade.draw_text(f"{self.mesto} mesto", window.width / 2, window.height / 2, anchor_x="center",
         #                  color=arcade.color.WHITE, font_name="Yukarimobile", font_size=80)
@@ -187,8 +194,9 @@ class StartView(arcade.View):
         # self.minSix += 1.7 / 1980 * window.width
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
-        pass
-
+        if (window.width / 33 <= x <= window.width / 33 + self.exitStatic.width * 0.08 and
+                window.height / 9 <= y <= window.height / 9 + self.exitStatic.height * 0.08):
+            window.close()
         # if not self.l and (window.width / 2 - self.startButton.width / 2 * self.ButtonScale <= x
         #                    <= window.width / 2 + self.startButton.width / 2 * self.ButtonScale
         #                    and
@@ -491,7 +499,7 @@ class LidersView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1980, 1080, fullscreen=True)
+window = arcade.Window(1980, 1080, resizable=True)
 # Load the icon image
 
 

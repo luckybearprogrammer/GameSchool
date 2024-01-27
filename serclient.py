@@ -1,6 +1,6 @@
 import requests
 
-urlServer = "https://0ca5-79-165-25-253.ngrok-free.app"
+urlServer = "https://cf93-79-165-25-253.ngrok-free.app"
 
 
 # Отправка числа в API для записи в файл
@@ -50,5 +50,15 @@ def mesto(nick):
     data = {"iduser": nick}
     response = requests.post(f"{urlServer}/mesto", json=data)
     if response.status_code == 200:
-        return response.json()["index"]
-# send_number_to_api(1212348797213, "цувцуауц")
+        return f"{wksajdbksaj(response.json()['index'])}"
+
+
+def wksajdbksaj(number):
+    if number == 1:
+        return f"{number}st"
+    elif number == 2:
+        return f"{number}nd"
+    elif number == 3:
+        return f"{number}rd"
+    else:
+        return f"{number}th"
