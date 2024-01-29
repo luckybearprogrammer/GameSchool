@@ -523,35 +523,17 @@ class OptionsView(arcade.View):
 class ChipsView(arcade.View):
     def __init__(self):
         super().__init__()
-        self.camera = arcade.Camera(window.width, window.height)
+
         self.bg = arcade.load_texture("env/chips.png")
-        self.z = 0
-        self.huh = arcade.load_sound("env/huh.mp3")
-        self.tile_map = arcade.load_tilemap("env/pix.tmx", 1.5)
-        # print(self.tile_map.sprite_lists)
-        self.scene = arcade.Scene()
-        for i in self.tile_map.sprite_lists["ground"]:
-            self.scene.add_sprite("ground", i)
-        self.x = 0
 
     def on_draw(self):
         self.clear()
-        # arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
-        # arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
-        self.scene.draw()
-        self.z += 5
-        if self.z > window.width:
-            self.z = 0
-        self.x += 7
-        self.camera.move((self.x, 0))
-        self.camera.use()
+        arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
+        arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.ESCAPE:
-            arcade.play_sound(self.huh)
             self.window.show_view(start_view)
-        if symbol == arcade.key.D:
-            pass
 
 
 class LidersView(arcade.View):
