@@ -584,32 +584,37 @@ class GameView(arcade.View):
 
     def setup(self):
         self.scene.add_sprite_list('Player')
-        self.player.position = 50 * self.tile_map.scaling, 384 *self.tile_map.scaling
+        self.player.position = 50 * self.tile_map.scaling, 384 * self.tile_map.scaling
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, walls=self.scene['Ground'],
-                                                             gravity_constant=1.8)
+                                                             gravity_constant=1.8 / 1980 * window.width)
 
     def center_camera_to_player(self):
         screen_center_x_1 = self.player.center_x - self.camera.viewport_width / 2
         screen_center_y_1 = window.height / 32
         if screen_center_x_1 < 0:
             screen_center_x_1 = 0
-        self.camera.move_to((screen_center_x_1, screen_center_y_1))
+        if not self.camera.position.x + window.width >= 200 * 64 * self.tile_map.scaling:
+            self.camera.move_to((screen_center_x_1, screen_center_y_1))
+        else:
+            chipsView.camerax = self.camera.position.x
+            chipsView.cameray = self.camera.position.y
+            self.window.show_view(chipsView)
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.RIGHT:
-            self.player.change_x += 4
+            self.player.change_x += 4 / 1980 * window.width
         if symbol == arcade.key.D:
-            self.player.change_x += 4
+            self.player.change_x += 4 / 1980 * window.width
         if symbol == arcade.key.LEFT:
-            self.player.change_x -= 4
+            self.player.change_x -= 4 / 1980 * window.width
         if symbol == arcade.key.A:
-            self.player.change_x -= 4
+            self.player.change_x -= 4 / 1980 * window.width
         if symbol == arcade.key.UP:
             if self.physics_engine.can_jump():
-                self.player.change_y = 20
+                self.player.change_y = 20 / 1080 * window.height
         if symbol == arcade.key.W:
             if self.physics_engine.can_jump():
-                self.player.change_y = 20
+                self.player.change_y = 20 / 1080 * window.height
 
     def on_key_release(self, symbol: int, modifiers: int):
         if symbol == arcade.key.RIGHT:
@@ -627,17 +632,33 @@ class GameView(arcade.View):
             if self.physics_engine.can_jump():
                 self.player.change_y = 0
 
+        if symbol == arcade.key.E:
+            self.player.position = 200 * 60 * self.tile_map.scaling, 100
+
 
 class ChipsView(arcade.View):
-    def __init__(self):
+    def __init__(self, x=0, y=0):
         super().__init__()
+        self.z = 0
+        self.camerax = x
+        self.cameray = y
+        self.bg = []
+        for i in range(1, 832):
+            self.bg.append(arcade.load_texture(f"env/mem/cadr{i}.jpg"))
+        self.start = time.time()
 
-        self.bg = arcade.load_texture("env/chips.png")
+        self.i = 0
+    def on_show_view(self):
+        arcade.play_sound(arcade.load_sound("env/mem/Мужик-ест-чипсы.mp3"), looping=True,volume=0.4)
 
     def on_draw(self):
         self.clear()
-        arcade.draw_lrwh_rectangle_textured(0 - self.z, 0, window.width, window.height, self.bg)
-        arcade.draw_lrwh_rectangle_textured(window.width - self.z, 0, window.width, window.height, self.bg)
+        if time.time() - self.start >= 1 / 60:
+            self.i += 1
+        if self.i >= 831:
+            self.i = 0
+        arcade.draw_lrwh_rectangle_textured(self.camerax - self.z, self.cameray, window.width, window.height,
+                                            self.bg[self.i])
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.ESCAPE:

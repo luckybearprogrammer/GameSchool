@@ -35,7 +35,7 @@ class Player(arcade.Sprite):
         if self.change_x > 0 and self.person_face_direction == LEFT_FACING:
             self.person_face_direction = RIGHT_FACING
         self.texture = self.run_texture[self.current_texture][self.person_face_direction]
-        print(time.time() - self.start)
+        # print(time.time() - self.start)
         if time.time() - self.start > 0.05:
             self.current_texture += 1
             self.start = time.time()
