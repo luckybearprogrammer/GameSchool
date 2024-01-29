@@ -545,6 +545,11 @@ class GameView(arcade.View):
             self.enemy_list.append(i)
         self.setup()
 
+    def on_resize(self, width: int, height: int):
+        self.camera.viewport_width = window.width
+        self.camera.viewport_height = window.height
+        self.tile_map.scaling = 1 / 1980 * window.width
+
     def on_draw(self):
         self.clear()
         self.background_list.draw()
@@ -570,16 +575,16 @@ class GameView(arcade.View):
             self.player.center_x = self.player.width / 4
         # if self.player.center_x >= self.width - self.player.width / 4:
         #     self.player.center_x = self.width - self.player.width / 4
-        for enemy in self.enemy_list:
-            death_list = arcade.check_for_collision_with_list(self.player, self.enemy_list)
-            if death_list:
-                enemy.kill()
-                print("Game over")
-                window.close()
+        # for enemy in self.enemy_list:
+        #     death_list = arcade.check_for_collision_with_list(self.player, self.enemy_list)
+        #     if death_list:
+        #         enemy.kill()
+        #         print("Game over")
+        #         window.close()
 
     def setup(self):
         self.scene.add_sprite_list('Player')
-        self.player.position = 50, 384
+        self.player.position = 50 * self.tile_map.scaling, 384 *self.tile_map.scaling
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, walls=self.scene['Ground'],
                                                              gravity_constant=1.8)
 
@@ -691,7 +696,7 @@ class LidersView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1980,1080,resizable=True)
+window = arcade.Window(1366, 768, resizable=True)
 # Load the icon image
 
 
