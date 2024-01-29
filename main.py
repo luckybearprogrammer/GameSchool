@@ -717,7 +717,7 @@ class LidersView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1366, 768, resizable=True)
+window = arcade.Window(fullscreen=True)
 # Load the icon image
 
 

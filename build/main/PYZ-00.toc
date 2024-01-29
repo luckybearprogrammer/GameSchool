@@ -1976,6 +1976,9 @@
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\platform.py',
    'PYMODULE'),
+  ('player',
+   'C:\\Users\\Mike Kondrashov\\PycharmProjects\\GameSchool\\player.py',
+   'PYMODULE'),
   ('plistlib',
    'C:\\Users\\Mike '
    'Kondrashov\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\plistlib.py',
