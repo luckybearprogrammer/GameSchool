@@ -14,7 +14,13 @@ with open("env/user.txt", "r", encoding="utf-8") as file:
     for line in file:
         nick = line.strip()
 result = result(nick)
-mesto = mesto(nick)
+mesto = mest(nick)
+
+
+def resultata():
+    with open("env/records.txt", "r", encoding="utf-8") as file:
+        a = [int(line.strip()) for line in file]
+        return [max(a), a[-1]]
 
 
 # music.volume=0
@@ -22,8 +28,10 @@ mesto = mesto(nick)
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
-        global result, mesto
-        self.result = result
+        global mesto
+        ans = resultata()
+        self.result = ans[1]
+        self.record = ans[0]
         self.mesto = mesto
 
         self.resultTexture = arcade.load_texture("env/buttons/result.png")
@@ -115,6 +123,12 @@ class StartView(arcade.View):
     #
     # def on_message_box_close(self, button_text):
     #     print(f"User pressed {button_text}.")
+    def on_show_view(self):
+        global nick
+        self.mesto = mest(nick)
+        ans = resultata()
+        self.result = ans[1]
+        self.record = ans[0]
 
     def on_draw(self):
         self.clear()
@@ -188,6 +202,24 @@ class StartView(arcade.View):
                          window.height / 2.3 + self.topStatic.height * (0.03 / 1080 * window.height), anchor_x="center",
                          color=arcade.color.WHITE, font_name="Yukarimobile", font_size=40 / 1980 * window.width)
 
+        arcade.draw_text(f"{self.result}", window.width / 11.2, window.height / 3.3, anchor_x="center",
+                         color=(245, 148, 24), font_name="Yukarimobile", font_size=50 / 1366 * window.width)
+        arcade.draw_text(f"{self.result}", window.width / 11.7, window.height / 3.25, anchor_x="center",
+                         color=arcade.color.WHITE, font_name="Yukarimobile", font_size=50 / 1366 * window.width)
+
+        arcade.draw_text(f"{self.record}", window.width / 5.27, window.height / 3.3, anchor_x="center",
+                         color=(245, 148, 24), font_name="Yukarimobile", font_size=50 / 1366 * window.width)
+        arcade.draw_text(f"{self.record}", window.width / 5.35, window.height / 3.25, anchor_x="center",
+                         color=arcade.color.WHITE, font_name="Yukarimobile", font_size=50 / 1366 * window.width)
+        #
+        # arcade.draw_line(window.width / 22 + (self.resultTexture.width * (0.13 / 1980 * window.width)) / 2, 0,
+        #                  window.width / 22 + (self.resultTexture.width * (0.13 / 1980 * window.width)) / 2,
+        #                  window.height, arcade.color.WHITE)
+        # arcade.draw_line(window.width / 7 + (self.resultTexture.width * (0.13 / 1980 * window.width)) / 2, 0,
+        #                  window.width / 7 + (self.resultTexture.width * (0.13 / 1980 * window.width)) / 2,
+        #                  window.height, arcade.color.WHITE)
+        # arcade.draw_line(0, window.height / 3, window.width, window.height / 3, arcade.color.WHITE)
+
         arcade.draw_lrwh_rectangle_textured(window.width / 22, window.height / 4.8,
                                             self.resultTexture.width * (0.13 / 1980 * window.width),
                                             self.resultTexture.height * (0.13 / 1080 * window.height),
@@ -203,7 +235,7 @@ class StartView(arcade.View):
         if (window.width / 33 <= window._mouse_x <=
                 window.width / 33 + self.exitStatic.width * (0.08 / 1980 * window.width) and
                 window.height / 9 <= window._mouse_y <=
-                window.height / 9 + self.exitStatic.height * (0.08 / 1080 * window.width)):
+                window.height / 9 + self.exitStatic.height * (0.08 / 1080 * window.height)):
             arcade.draw_lrwh_rectangle_textured(window.width / 33, window.height / 9,
                                                 self.exitStatic.width * (0.08 / 1980 * window.width),
                                                 self.exitStatic.height * (0.08 / 1080 * window.height),

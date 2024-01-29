@@ -46,11 +46,13 @@ def result(nick):
         return response.json()["result"]
 
 
-def mesto(nick):
+def mest(nick):
     data = {"iduser": nick}
     response = requests.post(f"{urlServer}/mesto", json=data)
     if response.status_code == 200:
         return f"{wksajdbksaj(response.json()['index'])}"
+    else:
+        return "-1"
 
 
 def wksajdbksaj(number):
