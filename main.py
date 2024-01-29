@@ -3,7 +3,7 @@ import time
 import webbrowser
 import arcade
 import arcade.gui
-
+from player import Player
 from serclient import *
 
 LANGUAGE = "rus"
@@ -268,6 +268,11 @@ class StartView(arcade.View):
         # self.minSix += 1.7 / 1980 * window.width
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        if (window.width / 35 <= x <=
+                window.width / 35 + self.startDinamic.width * (0.23 / 1980 * window.width) and
+                window.height / 1.7 <= y <=
+                window.height / 1.7 + self.startDinamic.height * (0.23 / 1080 * window.height)):
+            self.window.show_view(gameView)
         if (window.width / 33 <= x <= window.width / 33 + self.exitStatic.width * 0.08 and
                 window.height / 9 <= y <= window.height / 9 + self.exitStatic.height * 0.08):
             window.close()
@@ -519,6 +524,105 @@ class OptionsView(arcade.View):
             self.chet += 1
 
 
+class GameView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.player = Player()
+        self.camera = arcade.Camera(window.width, window.height)
+        self.enemy_list = arcade.SpriteList()
+        self.tile_map = arcade.load_tilemap("env/For_my_game.tmx")
+        print(self.tile_map.sprite_lists)
+        self.scene = arcade.Scene()
+        self.background_list = arcade.SpriteList()
+        self.background_list_2 = arcade.SpriteList()
+        for i in self.tile_map.sprite_lists['Platforms']:
+            self.scene.add_sprite('Ground', i)
+        for i in self.tile_map.sprite_lists['Background']:
+            self.background_list.append(i)
+        for i in self.tile_map.sprite_lists['Background2']:
+            self.background_list_2.append(i)
+        for i in self.tile_map.sprite_lists['Enemy']:
+            self.enemy_list.append(i)
+        self.setup()
+
+    def on_draw(self):
+        self.clear()
+        self.background_list.draw()
+        self.background_list_2.draw()
+        self.enemy_list.draw()
+        self.scene.draw()
+        self.enemy_list.draw()
+        self.camera.use()
+        self.player.draw()
+
+    def on_update(self, delta_time: float):
+        self.background_list.update()
+        self.background_list_2.update()
+        self.center_camera_to_player()
+        self.player.update()
+        self.scene.update()
+        self.enemy_list.update()
+        self.physics_engine.update()
+        # self.center_camera_to_player()
+        self.enemy_list.update()
+        self.player.update_animation()
+        if self.player.center_x <= self.player.width / 4:
+            self.player.center_x = self.player.width / 4
+        # if self.player.center_x >= self.width - self.player.width / 4:
+        #     self.player.center_x = self.width - self.player.width / 4
+        for enemy in self.enemy_list:
+            death_list = arcade.check_for_collision_with_list(self.player, self.enemy_list)
+            if death_list:
+                enemy.kill()
+                print("Game over")
+                window.close()
+
+    def setup(self):
+        self.scene.add_sprite_list('Player')
+        self.player.position = 50, 384
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player, walls=self.scene['Ground'],
+                                                             gravity_constant=1.8)
+
+    def center_camera_to_player(self):
+        screen_center_x_1 = self.player.center_x - self.camera.viewport_width / 2
+        screen_center_y_1 = window.height / 32
+        if screen_center_x_1 < 0:
+            screen_center_x_1 = 0
+        self.camera.move_to((screen_center_x_1, screen_center_y_1))
+
+    def on_key_press(self, symbol: int, modifiers: int):
+        if symbol == arcade.key.RIGHT:
+            self.player.change_x += 4
+        if symbol == arcade.key.D:
+            self.player.change_x += 4
+        if symbol == arcade.key.LEFT:
+            self.player.change_x -= 4
+        if symbol == arcade.key.A:
+            self.player.change_x -= 4
+        if symbol == arcade.key.UP:
+            if self.physics_engine.can_jump():
+                self.player.change_y = 20
+        if symbol == arcade.key.W:
+            if self.physics_engine.can_jump():
+                self.player.change_y = 20
+
+    def on_key_release(self, symbol: int, modifiers: int):
+        if symbol == arcade.key.RIGHT:
+            self.player.change_x = 0
+        if symbol == arcade.key.D:
+            self.player.change_x = 0
+        if symbol == arcade.key.LEFT:
+            self.player.change_x = 0
+        if symbol == arcade.key.A:
+            self.player.change_x = 0
+        if symbol == arcade.key.UP:
+            if self.physics_engine.can_jump():
+                self.player.change_y = 0
+        if symbol == arcade.key.W:
+            if self.physics_engine.can_jump():
+                self.player.change_y = 0
+
+
 class ChipsView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -587,13 +691,14 @@ class LidersView(arcade.View):
             self.window.show_view(start_view)
 
 
-window = arcade.Window(1366, 768, resizable=True)
+window = arcade.Window(1980,1080,resizable=True)
 # Load the icon image
 
 
 # window = arcade.Window(fullscreen=True)
 start_view = StartView()
 chipsView = ChipsView()
+gameView = GameView()
 # optView = OptionsView(0)
 generalView = GeneralView(0)
 window.show_view(start_view)
