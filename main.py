@@ -1,7 +1,6 @@
 import random
 import time
 import webbrowser
-from pyglet.image import load as pyglet_load
 import arcade
 import arcade.gui
 
@@ -592,7 +591,6 @@ window = arcade.Window(1366, 768, resizable=True)
 # Load the icon image
 
 
-window.set_icon(pyglet_load("env/lo.png"))
 # window = arcade.Window(fullscreen=True)
 start_view = StartView()
 chipsView = ChipsView()
